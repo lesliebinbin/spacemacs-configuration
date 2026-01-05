@@ -72,7 +72,7 @@ This function should only modify configuration layer settings."
      prettier
      (github-copilot
       :variables
-      copilot-chat-backend'curl)
+      copilot-chat-backend 'curl)
      ipython-notebook
      pdf
      )
@@ -250,7 +250,8 @@ It should only modify the values of Spacemacs settings."
    ;; a non-negative integer (pixel size), or a floating-point (point size).
    ;; Point size is recommended, because it's device independent. (default 10.0)
    dotspacemacs-default-font
-   '("Lucida Console" :size 16.0
+   '("Lucida Console"
+     :size 22
      :weight normal
      :width normal)
    ;; Default icons font, it can be `all-the-icons' or `nerd-icons'.
