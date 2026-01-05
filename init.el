@@ -251,7 +251,7 @@ It should only modify the values of Spacemacs settings."
    ;; Point size is recommended, because it's device independent. (default 10.0)
    dotspacemacs-default-font
    '("Lucida Console"
-     :size 22
+     :size 22.0
      :weight normal
      :width normal)
    ;; Default icons font, it can be `all-the-icons' or `nerd-icons'.
