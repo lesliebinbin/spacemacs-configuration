@@ -57,7 +57,10 @@ This function should only modify configuration layer settings."
      typescript
      vue
      prettier
-     (github-copilot :variables copilot-chat-backend'curl))
+     (github-copilot :variables copilot-chat-backend'curl)
+     ipython-notebook
+     pdf
+     )
    ;; List of additional packages that will be installed without being wrapped
    ;; in a layer (generally the packages are installed only and should still be
    ;; loaded using load/require/use-package in the user-config section below in
@@ -164,8 +167,8 @@ It should only modify the values of Spacemacs settings."
    ;; number is the project limit and the second the limit on the recent files
    ;; within a project.
    dotspacemacs-startup-lists
-   '((recents . 5)
-     (projects . 7))
+   '((recents . 3)
+     (projects . 3))
    ;; True if the home buffer should respond to resize events. (default t)
    dotspacemacs-startup-buffer-responsive
    t
