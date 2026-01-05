@@ -30,34 +30,43 @@ This function should only modify configuration layer settings."
      ;; Uncomment some layer names and press `SPC f e R' (Vim style) or
      ;; `M-m f e R' (Emacs style) to install them.
      ;; ----------------------------------------------------------------
-     auto-completion emacs-lisp
+     auto-completion
+     emacs-lisp
      git
      helm
      lsp
      markdown
      multiple-cursors
      org
-     (shell :variables shell-default-height
-            30 shell-default-position 'bottom shell-default-shell
-            'vterm)
-     ;; spell-checking
+     (shell
+      :variables
+      shell-default-height 30
+      shell-default-position 'bottom
+      shell-default-shell 'vterm)
      syntax-checking
      version-control
      semantic
-     (better-defaults :variables better-defaults-move-to-beginning-of-code-first
-                      t better-defaults-move-to-end-of-code-first
-                      nil)
-     (treemacs :variables treemacs-width
-               30)
+     (better-defaults
+      :variables
+      better-defaults-move-to-beginning-of-code-first t
+      better-defaults-move-to-end-of-code-first
+      nil)
+     (treemacs
+      :variables
+      treemacs-width 30)
      csv
      toml
-     (python :variables python-backend'lsp python-formatter
-             'black)
+     (python
+      :variables
+      python-backend 'lsp
+      python-formatter 'black)
      javascript
      typescript
      vue
      prettier
-     (github-copilot :variables copilot-chat-backend'curl)
+     (github-copilot
+      :variables
+      copilot-chat-backend'curl)
      ipython-notebook
      pdf
      )
