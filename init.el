@@ -2,6 +2,12 @@
 ;; This file is loaded by Spacemacs at startup.
 ;; It must be stored in your home directory.
 
+(defun custom/spacemacs-banner-simple ()
+  (let* ((base-dir (or (and (boundp 'dotspacemacs-directory) dotspacemacs-directory)
+                       user-emacs-directory))
+         (path (expand-file-name "logos/emacs.jpeg" base-dir)))
+    (if (file-exists-p path) path 'official)))
+
 (defun dotspacemacs/layers ()
   "Layer configuration:
 This function should only modify configuration layer settings."
@@ -157,7 +163,7 @@ It should only modify the values of Spacemacs settings."
    ;; by your Emacs build.
    ;; If the value is nil then no banner is displayed. (default 'official)
    dotspacemacs-startup-banner
-   'official
+   (custom/spacemacs-banner-simple)
    ;; Scale factor controls the scaling (size) of the startup banner. Default
    ;; value is `auto' for scaling the logo automatically to fit all buffer
    ;; contents, to a maximum of the full image height and a minimum of 3 line
@@ -219,7 +225,11 @@ It should only modify the values of Spacemacs settings."
    ;; `:location' to download the theme package, refer the themes section in
    ;; DOCUMENTATION.org for the full theme specifications.
    dotspacemacs-themes
-   '(spacemacs-dark spacemacs-light)
+   '(
+     material
+     spacemacs-dark
+     spacemacs-light
+     )
    ;; Set the theme for the Spaceline. Supported themes are `spacemacs',
    ;; `all-the-icons', `custom', `doom', `vim-powerline' and `vanilla'. The
    ;; first three are spaceline themes. `doom' is the doom-emacs mode-line.
