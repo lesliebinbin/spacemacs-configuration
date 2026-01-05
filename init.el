@@ -30,7 +30,7 @@ This function should only modify configuration layer settings."
    ;; Paths must have a trailing slash (i.e. "~/.mycontribs/") dotspacemacs-configuration-layer-path '()
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(
+   `(
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press `SPC f e R' (Vim style) or
@@ -40,10 +40,15 @@ This function should only modify configuration layer settings."
      emacs-lisp
      git
      helm
-     lsp
      markdown
      multiple-cursors
-     org
+     (org
+      :variables
+      org-confirm-babel-evaluate nil
+      org-src-preserve-indentation t
+      org-edit-src-content-indentation 0
+      org-src-fontify-natively t
+      )
      (shell
       :variables
       shell-default-height 30
@@ -65,6 +70,7 @@ This function should only modify configuration layer settings."
      (python
       :variables
       python-backend 'lsp
+      python-lsp-server 'pyright
       python-formatter 'black)
      javascript
      typescript
@@ -73,8 +79,19 @@ This function should only modify configuration layer settings."
      (github-copilot
       :variables
       copilot-chat-backend 'curl)
-     ipython-notebook
      pdf
+     treemacs
+     ,(when (eq system-type 'darwin)
+        (osx :variables osx-command-as       'super
+             osx-option-as        'meta
+             osx-control-as       'control
+             osx-function-as      nil
+             osx-right-command-as 'left
+             osx-right-option-as  'left
+             osx-right-control-as 'left
+             osx-swap-option-and-command nil)
+
+        )
      )
    ;; List of additional packages that will be installed without being wrapped
    ;; in a layer (generally the packages are installed only and should still be
@@ -85,7 +102,9 @@ This function should only modify configuration layer settings."
    ;; `:location' property: '(your-package :location "~/path/to/your-package/")
    ;; Also include the dependencies as they will not be resolved automatically.
    dotspacemacs-additional-packages
-   '()
+   '(
+     jupyter
+     )
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages
    '()
@@ -416,7 +435,7 @@ It should only modify the values of Spacemacs settings."
    ;; If you use Emacs as a daemon and wants unicode characters only in GUI set
    ;; the value to quoted `display-graphic-p'. (default t)
    dotspacemacs-mode-line-unicode-symbols
-   t
+   nil
    ;; If non-nil smooth scrolling (native-scrolling) is enabled. Smooth
    ;; scrolling overrides the default behavior of Emacs which recenters point
    ;; when it reaches the top or bottom of the screen. (default t)
@@ -590,7 +609,14 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first.")
 This function is called at the very end of Spacemacs startup, after layer
 configuration.
 Put your configuration code here, except for variables that should be set
-before packages are loaded.")
+before packages are loaded."
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((emacs-lisp . t)
+     (python . t)
+     )
+   )
+  )
 
 
 ;; Do not write anything past this comment. This is where Emacs will
