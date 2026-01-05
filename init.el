@@ -80,18 +80,17 @@ This function should only modify configuration layer settings."
       :variables
       copilot-chat-backend 'curl)
      pdf
-     treemacs
-     ,(when (eq system-type 'darwin)
-        (osx :variables osx-command-as       'super
-             osx-option-as        'meta
-             osx-control-as       'control
-             osx-function-as      nil
-             osx-right-command-as 'left
-             osx-right-option-as  'left
-             osx-right-control-as 'left
-             osx-swap-option-and-command nil)
+     ,@(when (eq system-type 'darwin)
+         '((osx :variables
+                osx-command-as 'super
+                osx-option-as 'meta
+                osx-control-as 'control
+                osx-function-as nil
+                osx-right-command-as 'left
+                osx-right-option-as 'left
+                osx-right-control-as 'left
+                osx-swap-option-and-command nil)))
 
-        )
      )
    ;; List of additional packages that will be installed without being wrapped
    ;; in a layer (generally the packages are installed only and should still be
