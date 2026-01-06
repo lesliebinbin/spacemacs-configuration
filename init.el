@@ -79,7 +79,9 @@ This function should only modify configuration layer settings."
      (github-copilot
       :variables
       copilot-chat-backend 'curl)
-     pdf
+     (eaf :variables
+          eaf-python-command "/home/lesliebinbin/codings/geometry-for-programmers-code/.venv/bin/python"
+          )
      ,@(when (eq system-type 'darwin)
          '((osx :variables
                 osx-command-as 'super
@@ -103,18 +105,6 @@ This function should only modify configuration layer settings."
    dotspacemacs-additional-packages
    '(
      jupyter
-     (pdf-tools :location (recipe
-                           :fetcher github
-                           :repo "dalanicolai/pdf-tools"
-                           :branch "pdf-roll"
-                           :files ("lisp/*.el"
-                                   "README"
-                                   ("build" "Makefile")
-                                   ("build" "server")
-                                   (:exclude "lisp/tablist.el" "lisp/tablist-filter.el"))))
-     (image-roll :location (recipe
-                            :fetcher github
-                            :repo "dalanicolai/image-roll.el"))
      )
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages
@@ -281,7 +271,7 @@ It should only modify the values of Spacemacs settings."
    ;; Point size is recommended, because it's device independent. (default 10.0)
    dotspacemacs-default-font
    '("Lucida Console"
-     :size 13.0
+     :size 18.0
      :weight normal
      :width normal)
    ;; Default icons font, it can be `all-the-icons' or `nerd-icons'.
@@ -606,7 +596,8 @@ This function defines the environment variables for your Emacs session. By
 default it calls `spacemacs/load-spacemacs-env' which loads the environment
 variables declared in `~/.spacemacs.env' or `~/.spacemacs.d/.spacemacs.env'.
 See the header of this file for more information."
-  (spacemacs/load-spacemacs-env))
+  ;; (spacemacs/load-spacemacs-env)
+  )
 
 (defun dotspacemacs/user-init ()
   "Initialization for user code:
@@ -621,6 +612,8 @@ This function is called at the very end of Spacemacs startup, after layer
 configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
+  (require 'eaf)
+  (require 'eaf-pdf-viewer)
   (org-babel-do-load-languages
    'org-babel-load-languages
    '((emacs-lisp . t)
