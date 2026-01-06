@@ -103,6 +103,18 @@ This function should only modify configuration layer settings."
    dotspacemacs-additional-packages
    '(
      jupyter
+     (pdf-tools :location (recipe
+                           :fetcher github
+                           :repo "dalanicolai/pdf-tools"
+                           :branch "pdf-roll"
+                           :files ("lisp/*.el"
+                                   "README"
+                                   ("build" "Makefile")
+                                   ("build" "server")
+                                   (:exclude "lisp/tablist.el" "lisp/tablist-filter.el"))))
+     (image-roll :location (recipe
+                            :fetcher github
+                            :repo "dalanicolai/image-roll.el"))
      )
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages
