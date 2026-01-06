@@ -80,7 +80,7 @@ This function should only modify configuration layer settings."
       :variables
       copilot-chat-backend 'curl)
      (eaf :variables
-          eaf-python-command "/home/lesliebinbin/codings/geometry-for-programmers-code/.venv/bin/python"
+          eaf-python-command "/usr/local/anaconda3/envs/emacs-eaf/bin/python"
           )
      ,@(when (eq system-type 'darwin)
          '((osx :variables
@@ -105,6 +105,7 @@ This function should only modify configuration layer settings."
    dotspacemacs-additional-packages
    '(
      jupyter
+     exec-path-from-shell
      )
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages
@@ -612,8 +613,10 @@ This function is called at the very end of Spacemacs startup, after layer
 configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
-  (require 'eaf)
-  (require 'eaf-pdf-viewer)
+  (require 'exec-path-from-shell)
+  (exec-path-from-shell-initialize)
+  ;; (require 'eaf)
+  ;; (require 'eaf-pdf-viewer)
   (org-babel-do-load-languages
    'org-babel-load-languages
    '((emacs-lisp . t)
