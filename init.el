@@ -80,7 +80,8 @@ This function should only modify configuration layer settings."
       :variables
       copilot-chat-backend 'curl)
      (eaf :variables
-          eaf-python-command "/home/lesliebinbin/codings/geometry-for-programmers-code/.venv/bin/python"
+          eaf-python-command "/home/lesliebinbin/anaconda3/envs/emacs-eaf/bin/python"
+          eaf-enable-debug t
           )
      ,@(when (eq system-type 'darwin)
          '((osx :variables
@@ -246,9 +247,9 @@ It should only modify the values of Spacemacs settings."
    ;; DOCUMENTATION.org for the full theme specifications.
    dotspacemacs-themes
    '(
-     material
      spacemacs-dark
      spacemacs-light
+     material
      )
    ;; Set the theme for the Spaceline. Supported themes are `spacemacs',
    ;; `all-the-icons', `custom', `doom', `vim-powerline' and `vanilla'. The
@@ -612,8 +613,6 @@ This function is called at the very end of Spacemacs startup, after layer
 configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
-  (require 'eaf)
-  (require 'eaf-pdf-viewer)
   (org-babel-do-load-languages
    'org-babel-load-languages
    '((emacs-lisp . t)
