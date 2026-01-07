@@ -106,6 +106,7 @@ This function should only modify configuration layer settings."
    dotspacemacs-additional-packages
    '(
      jupyter
+     exec-path-from-shell
      )
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages
@@ -613,6 +614,10 @@ This function is called at the very end of Spacemacs startup, after layer
 configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
+  (require 'exec-path-from-shell)
+  (exec-path-from-shell-initialize)
+  ;; (require 'eaf)
+  ;; (require 'eaf-pdf-viewer)
   (org-babel-do-load-languages
    'org-babel-load-languages
    '((emacs-lisp . t)
