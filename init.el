@@ -9,6 +9,7 @@
     (if (file-exists-p path) path 'official)))
 
 (defun custom/spacemacs-load-user-custom-via-org (file-name)
+  (require 'org)
   (when-let* ((base-dir (or (and (boundp 'dotspacemacs-directory) dotspacemacs-directory)
                             user-emacs-directory))
               (path (expand-file-name file-name base-dir)))
@@ -61,6 +62,7 @@ This function should only modify configuration layer settings."
      multiple-cursors
      (org
       :variables
+      org-enable-babel-support t
       org-confirm-babel-evaluate nil
       org-src-preserve-indentation t
       org-edit-src-content-indentation 0
@@ -108,7 +110,7 @@ This function should only modify configuration layer settings."
                 osx-right-control-as 'left
                 osx-swap-option-and-command nil)
            ))
-     ,@(when-let ((conda-home (getenv "CONDA_PREFIX")))
+     ,@(when-let* ((conda-home (getenv "CONDA_PREFIX")))
          `(
            (conda
             :variables
@@ -633,9 +635,6 @@ This function is called immediately after `dotspacemacs/init', before layer
 configuration.
 It is mostly for variables that should be set before packages are loaded.
 If you are unsure, try setting them in `dotspacemacs/user-config' first."
-
-
-  (custom/spacemacs-load-user-custom-via-org "custom/init.org")
   )
 
 (defun dotspacemacs/user-config ()
@@ -644,7 +643,7 @@ This function is called at the very end of Spacemacs startup, after layer
 configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
-  (custom/spacemacs-load-user-custom-via-org "custom/config.org")
+  ;; (custom/spacemacs-load-user-custom-via-org "custom/config.org")
   )
 
 

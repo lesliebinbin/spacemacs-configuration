@@ -1,8 +1,0 @@
-#+begin_src emacs-lisp :tangle yes
-(when (eq system-type 'darwin)
-  (setq
-    native-comp-speed -1
-    native-comp-jit-compilation nil
-    )
-  )
-#+end_src
