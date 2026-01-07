@@ -8,6 +8,13 @@
          (path (expand-file-name "logos/emacs.jpeg" base-dir)))
     (if (file-exists-p path) path 'official)))
 
+(defun custom/spacemacs-load-user-custom-via-org (file-name)
+  (when-let* ((base-dir (or (and (boundp 'dotspacemacs-directory) dotspacemacs-directory)
+                            user-emacs-directory))
+              (path (expand-file-name file-name base-dir)))
+    (org-babel-load-file path)))
+
+
 (defun dotspacemacs/layers ()
   "Layer configuration:
 This function should only modify configuration layer settings."
@@ -36,7 +43,17 @@ This function should only modify configuration layer settings."
      ;; Uncomment some layer names and press `SPC f e R' (Vim style) or
      ;; `M-m f e R' (Emacs style) to install them.
      ;; ----------------------------------------------------------------
-     auto-completion
+     (auto-completion
+      :variables
+      auto-completion-enable-snippets-in-popup t
+      auto-completion-enable-help-tooltip nil
+      auto-completion-enable-sort-by-usage t
+      auto-completion-complete-with-key-sequence-delay 0.5
+      auto-completion-idle-delay 1.0
+      auto-completion-use-company-box t
+      auto-completion-complete-with-key-sequence "jk"
+      :disabled-for git
+      )
      emacs-lisp
      git
      helm
@@ -48,13 +65,6 @@ This function should only modify configuration layer settings."
       org-src-preserve-indentation t
       org-edit-src-content-indentation 0
       org-src-fontify-natively t
-      :config
-      (org-babel-do-load-languages
-       'org-babel-load-languages
-       '((emacs-lisp . t)
-         (python . t)
-         )
-       )
       )
      (shell
       :variables
@@ -624,11 +634,8 @@ configuration.
 It is mostly for variables that should be set before packages are loaded.
 If you are unsure, try setting them in `dotspacemacs/user-config' first."
 
-  (when (eq system-type 'darwin)
-    (setq
-     native-comp-speed -1
-     native-comp-jit-compilation nil
-     ))
+
+  (custom/spacemacs-load-user-custom-via-org "custom/init.org")
   )
 
 (defun dotspacemacs/user-config ()
@@ -637,8 +644,7 @@ This function is called at the very end of Spacemacs startup, after layer
 configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
-  (require 'exec-path-from-shell)
-  (exec-path-from-shell-initialize)
+  (custom/spacemacs-load-user-custom-via-org "custom/config.org")
   )
 
 

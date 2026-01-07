@@ -1,3 +1,4 @@
 .spacemacs.env
 **/*.jpeg
 **/*.png
+custom/*.el
