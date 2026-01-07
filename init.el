@@ -79,12 +79,9 @@ This function should only modify configuration layer settings."
      (github-copilot
       :variables
       copilot-chat-backend 'curl)
-     (eaf :variables
-          eaf-python-command "/home/lesliebinbin/anaconda3/envs/emacs-eaf/bin/python"
-          eaf-enable-debug t
-          )
      ,@(when (eq system-type 'darwin)
-         '((osx :variables
+         '(
+          (osx :variables
                 osx-command-as 'super
                 osx-option-as 'meta
                 osx-control-as 'control
@@ -92,7 +89,13 @@ This function should only modify configuration layer settings."
                 osx-right-command-as 'left
                 osx-right-option-as 'left
                 osx-right-control-as 'left
-                osx-swap-option-and-command nil)))
+                osx-swap-option-and-command nil)
+          ;; wsl does not seems to work
+          (eaf :variables
+                eaf-python-command (getenv "EAF_PYTHON_PATH")
+                eaf-enable-debug t
+                )
+                ))
 
      )
    ;; List of additional packages that will be installed without being wrapped
@@ -616,8 +619,6 @@ Put your configuration code here, except for variables that should be set
 before packages are loaded."
   (require 'exec-path-from-shell)
   (exec-path-from-shell-initialize)
-  ;; (require 'eaf)
-  ;; (require 'eaf-pdf-viewer)
   (org-babel-do-load-languages
    'org-babel-load-languages
    '((emacs-lisp . t)
