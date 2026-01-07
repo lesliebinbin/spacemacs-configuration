@@ -48,6 +48,13 @@ This function should only modify configuration layer settings."
       org-src-preserve-indentation t
       org-edit-src-content-indentation 0
       org-src-fontify-natively t
+      :config
+      (org-babel-do-load-languages
+       'org-babel-load-languages
+       '((emacs-lisp . t)
+         (python . t)
+         )
+       )
       )
      (shell
       :variables
@@ -81,7 +88,7 @@ This function should only modify configuration layer settings."
       copilot-chat-backend 'curl)
      ,@(when (eq system-type 'darwin)
          '(
-          (osx :variables
+           (osx :variables
                 osx-command-as 'super
                 osx-option-as 'meta
                 osx-control-as 'control
@@ -90,12 +97,18 @@ This function should only modify configuration layer settings."
                 osx-right-option-as 'left
                 osx-right-control-as 'left
                 osx-swap-option-and-command nil)
-          ;; wsl does not seems to work
-          (eaf :variables
-                eaf-python-command (getenv "EAF_PYTHON_PATH")
-                eaf-enable-debug t
-                )
-                ))
+           ))
+     ,@(when-let ((conda-home (getenv "CONDA_PREFIX")))
+         `(
+           (conda
+            :variables
+            conda-anaconda-home ,conda-home
+            :config
+            (conda-env-initialize-interactive-shells)
+            (conda-env-initialize-eshell)
+            )
+           )
+         )
 
      )
    ;; List of additional packages that will be installed without being wrapped
@@ -601,7 +614,7 @@ This function defines the environment variables for your Emacs session. By
 default it calls `spacemacs/load-spacemacs-env' which loads the environment
 variables declared in `~/.spacemacs.env' or `~/.spacemacs.d/.spacemacs.env'.
 See the header of this file for more information."
-  ;; (spacemacs/load-spacemacs-env)
+  (spacemacs/load-spacemacs-env)
   )
 
 (defun dotspacemacs/user-init ()
@@ -609,7 +622,14 @@ See the header of this file for more information."
 This function is called immediately after `dotspacemacs/init', before layer
 configuration.
 It is mostly for variables that should be set before packages are loaded.
-If you are unsure, try setting them in `dotspacemacs/user-config' first.")
+If you are unsure, try setting them in `dotspacemacs/user-config' first."
+
+  (when (eq system-type 'darwin)
+    (setq
+     native-comp-speed -1
+     native-comp-jit-compilation nil
+     ))
+  )
 
 (defun dotspacemacs/user-config ()
   "Configuration for user code:
@@ -619,12 +639,6 @@ Put your configuration code here, except for variables that should be set
 before packages are loaded."
   (require 'exec-path-from-shell)
   (exec-path-from-shell-initialize)
-  (org-babel-do-load-languages
-   'org-babel-load-languages
-   '((emacs-lisp . t)
-     (python . t)
-     )
-   )
   )
 
 
@@ -640,14 +654,16 @@ This function is called at the very end of Spacemacs initialization."
    ;; If you edit it by hand, you could mess it up, so be careful.
    ;; Your init file should contain only one such instance.
    ;; If there is more than one, they won't work right.
-   '(ignored-local-variable-values '((js2-basic-offset . 2)
-                                     (web-mode-indent-style . 2)
-                                     (web-mode-block-padding . 2)
-                                     (web-mode-script-padding . 2)
-                                     (web-mode-style-padding . 2))))
+   '(ignored-local-variable-values
+     '((js2-basic-offset . 2) (web-mode-indent-style . 2)
+       (web-mode-block-padding . 2) (web-mode-script-padding . 2)
+       (web-mode-style-padding . 2)))
+   '(safe-local-variable-directories
+     '("/Users/zhibinhuang/Desktop/codings/geometry-for-programmers-code/")))
   (custom-set-faces
    ;; custom-set-faces was added by Custom.
    ;; If you edit it by hand, you could mess it up, so be careful.
    ;; Your init file should contain only one such instance.
    ;; If there is more than one, they won't work right.
-   ))
+   )
+  )
