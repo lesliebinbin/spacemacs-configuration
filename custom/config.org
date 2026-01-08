@@ -1,4 +1,4 @@
-#+begin_src emacs-lisp :tangle no
+#+begin_src emacs-lisp :tangle yes
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 (when (eq system-type 'darwin)
   (setq
@@ -8,7 +8,7 @@
   )
 #+end_src
 
-#+begin_src emacs-lisp :tangle no
+#+begin_src emacs-lisp :tangle yes
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 (require 'exec-path-from-shell)
 (require 'jupyter)

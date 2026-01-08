@@ -46,13 +46,8 @@ This function should only modify configuration layer settings."
      ;; ----------------------------------------------------------------
      (auto-completion
       :variables
-      auto-completion-enable-snippets-in-popup t
-      auto-completion-enable-help-tooltip nil
-      auto-completion-enable-sort-by-usage t
-      auto-completion-complete-with-key-sequence-delay 0.5
-      auto-completion-idle-delay 1.0
+      auto-completion-enable-help-tooltip 'manual
       auto-completion-use-company-box t
-      auto-completion-complete-with-key-sequence "jk"
       :disabled-for git
       )
      emacs-lisp
@@ -67,6 +62,7 @@ This function should only modify configuration layer settings."
       org-src-preserve-indentation t
       org-edit-src-content-indentation 0
       org-src-fontify-natively t
+      org-enable-reveal-js-support t
       )
      (shell
       :variables
@@ -141,7 +137,8 @@ This function should only modify configuration layer settings."
    '()
    ;; A list of packages that will not be installed and loaded.
    dotspacemacs-excluded-packages
-   '()
+   '(
+     )
    ;; Defines the behaviour of Spacemacs when installing packages.
    ;; Possible values are `used-only', `used-but-keep-unused' and `all'.
    ;; `used-only' installs only explicitly used packages and deletes any unused
@@ -301,7 +298,7 @@ It should only modify the values of Spacemacs settings."
    ;; Point size is recommended, because it's device independent. (default 10.0)
    dotspacemacs-default-font
    '("Lucida Console"
-     :size 18.0
+     :size 14.0
      :weight normal
      :width normal)
    ;; Default icons font, it can be `all-the-icons' or `nerd-icons'.
@@ -643,7 +640,7 @@ This function is called at the very end of Spacemacs startup, after layer
 configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
-  ;; (custom/spacemacs-load-user-custom-via-org "custom/config.org")
+  (custom/spacemacs-load-user-custom-via-org "custom/config.org")
   )
 
 
