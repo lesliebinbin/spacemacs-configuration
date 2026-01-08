@@ -47,7 +47,8 @@ This function should only modify configuration layer settings."
      (auto-completion
       :variables
       auto-completion-enable-help-tooltip 'manual
-      auto-completion-use-company-box t
+      auto-completion-return-key-behavior 'complete
+      auto-completion-tab-key-behavior 'cycle
       :disabled-for git
       )
      emacs-lisp
@@ -138,6 +139,7 @@ This function should only modify configuration layer settings."
    ;; A list of packages that will not be installed and loaded.
    dotspacemacs-excluded-packages
    '(
+     company
      )
    ;; Defines the behaviour of Spacemacs when installing packages.
    ;; Possible values are `used-only', `used-but-keep-unused' and `all'.
@@ -298,7 +300,7 @@ It should only modify the values of Spacemacs settings."
    ;; Point size is recommended, because it's device independent. (default 10.0)
    dotspacemacs-default-font
    '("Lucida Console"
-     :size 14.0
+     :size 20.0
      :weight normal
      :width normal)
    ;; Default icons font, it can be `all-the-icons' or `nerd-icons'.
