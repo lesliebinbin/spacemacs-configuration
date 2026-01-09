@@ -662,8 +662,7 @@ This function is called at the very end of Spacemacs initialization."
      '((js2-basic-offset . 2) (web-mode-indent-style . 2)
        (web-mode-block-padding . 2) (web-mode-script-padding . 2)
        (web-mode-style-padding . 2)))
-   '(safe-local-variable-directories
-     '("/Users/zhibinhuang/Desktop/codings/geometry-for-programmers-code/")))
+   )
   (custom-set-faces
    ;; custom-set-faces was added by Custom.
    ;; If you edit it by hand, you could mess it up, so be careful.

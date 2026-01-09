@@ -4,6 +4,7 @@
   (setq
    native-comp-speed -1
    native-comp-jit-compilation nil
+   native-comp-aot-compilation nil
    )
   )
 #+end_src
