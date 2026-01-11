@@ -22,3 +22,11 @@
     )
   )
 #+end_src
+
+#+begin_src emacs-lisp :tangle yes
+(when-let* ((base-dir (or (and (boundp 'dotspacemacs-directory)
+                               dotspacemacs-directory)
+                          user-emacs-directory))
+            (custom-snippet-directory (expand-file-name "snippets" base-dir)))
+  (add-to-list 'yas-snippet-dirs custom-snippet-directory))
+#+end_src
