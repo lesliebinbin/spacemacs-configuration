@@ -108,11 +108,18 @@ This function should only modify configuration layer settings."
                 osx-right-control-as 'left
                 osx-swap-option-and-command nil)
            )
-         (eaf :variables
-              eaf-python-command (getenv "EAF_PYTHON_PATH")
-              eaf-enable-debug t
-              )
          )
+
+     ,@(when (eq system-type 'darwin)
+         '(
+           (eaf :variables
+                eaf-python-command (getenv "EAF_PYTHON_PATH")
+                eaf-enable-debug nil
+                )
+           )
+         )
+
+
      ,@(when-let* ((conda-home (getenv "CONDA_PREFIX")))
          `(
            (conda
