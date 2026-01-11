@@ -107,7 +107,12 @@ This function should only modify configuration layer settings."
                 osx-right-option-as 'left
                 osx-right-control-as 'left
                 osx-swap-option-and-command nil)
-           ))
+           )
+         (eaf :variables
+              eaf-python-command (getenv "EAF_PYTHON_PATH")
+              eaf-enable-debug t
+              )
+         )
      ,@(when-let* ((conda-home (getenv "CONDA_PREFIX")))
          `(
            (conda
@@ -119,7 +124,6 @@ This function should only modify configuration layer settings."
             )
            )
          )
-
      )
    ;; List of additional packages that will be installed without being wrapped
    ;; in a layer (generally the packages are installed only and should still be
