@@ -49,6 +49,8 @@ This function should only modify configuration layer settings."
       auto-completion-enable-help-tooltip 'manual
       auto-completion-return-key-behavior 'complete
       auto-completion-tab-key-behavior 'cycle
+      auto-completion-enable-snippets-in-popup t
+      auto-completion-use-company-box t
       :disabled-for git
       )
      emacs-lisp
@@ -63,7 +65,6 @@ This function should only modify configuration layer settings."
       org-src-preserve-indentation t
       org-edit-src-content-indentation 0
       org-src-fontify-natively t
-      org-enable-reveal-js-support t
       )
      (shell
       :variables
@@ -199,7 +200,7 @@ It should only modify the values of Spacemacs settings."
    ;; section of the documentation for details on available variables.
    ;; (default 'vim)
    dotspacemacs-editing-style
-   'vim
+   'hybrid
    ;; If non-nil show the version string in the Spacemacs buffer. It will
    ;; appear as (spacemacs version)@(emacs version)
    ;; (default t)
