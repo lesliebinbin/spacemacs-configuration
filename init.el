@@ -2,6 +2,7 @@
 ;; This file is loaded by Spacemacs at startup.
 ;; It must be stored in your home directory.
 (add-to-list 'load-path (expand-file-name "private/lisp" dotspacemacs-directory))
+(setq user-packages-directory (expand-file-name "private/packages" dotspacemacs-directory))
 
 (require 'user-custom-functions)
 
@@ -27,7 +28,9 @@ This function should only modify configuration layer settings."
    ;; List of additional paths where to look for configuration layers.
    ;; Paths must have a trailing slash (i.e. "~/.mycontribs/") dotspacemacs-configuration-layer-path '()
    ;; List of configuration layers to load.
+
    dotspacemacs-configuration-layers
+
    `(
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
@@ -145,9 +148,10 @@ This function should only modify configuration layer settings."
    ;; `:location' property: '(your-package :location "~/path/to/your-package/")
    ;; Also include the dependencies as they will not be resolved automatically.
    dotspacemacs-additional-packages
-   '(
+   `(
      jupyter
      exec-path-from-shell
+     (buffer-path-utils :location ,(expand-file-name "buffer-path-utils" user-packages-directory))
      )
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages
