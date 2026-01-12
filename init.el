@@ -16,13 +16,8 @@
     (org-babel-load-file path)))
 
 (defun custom/font-size-based-on-pixel-width ()
-  (let (frame-width (display-pixel-width))
-    (if (< frame-width 3840)
-        18.0
-      22.0
-      )
-    )
-  )
+  (let ((frame-width (display-pixel-width)))
+    (if (< frame-width 3840) 14.0 22.0)))
 
 
 (defun dotspacemacs/layers ()
@@ -328,8 +323,8 @@ It should only modify the values of Spacemacs settings."
    ;; a non-negative integer (pixel size), or a floating-point (point size).
    ;; Point size is recommended, because it's device independent. (default 10.0)
    dotspacemacs-default-font
-   '("Lucida Console"
-     :size (custom/font-size-based-on-pixel-width)
+   `("Lucida Console"
+     :size ,(custom/font-size-based-on-pixel-width)
      :weight normal
      :width normal)
    ;; Default icons font, it can be `all-the-icons' or `nerd-icons'.
