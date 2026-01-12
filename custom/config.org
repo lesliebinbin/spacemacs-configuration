@@ -30,3 +30,48 @@
             (custom-snippet-directory (expand-file-name "private/snippets" base-dir)))
   (add-to-list 'yas-snippet-dirs custom-snippet-directory))
 #+end_src
+
+
+#+begin_src emacs-lisp :tangle yes
+(require 'buffer-path-utils)
+(spacemacs/declare-prefix "o" "Custom")
+(spacemacs/declare-prefix "ov" "Open VSCode")
+
+(defun vscode-current-path (task-type)
+  (cond
+   ((eq task-type :file)
+    (leslie/buffer-full-path))
+   ((eq task-type :lsp-workspace)
+    (leslie/buffer-full-lsp-workspace-path))
+   ((eq task-type :project-root)
+    (leslie/buffer-project-full-path))))
+
+(defun open-with-vscode (task-type)
+  (when-let* ((current-path (vscode-current-path task-type))
+              (command (format "code \"%s\"" current-path)))
+    (progn
+      (message "Opening With VSCode...")
+      (shell-command command))))
+
+
+(defun vscode-open-file ()
+  (interactive)
+  (open-with-vscode :file))
+
+
+
+(defun vscode-open-lsp-workspace-root ()
+  (interactive)
+  (open-with-vscode :lsp-workspace))
+
+
+(defun vscode-open-project-root ()
+  (interactive)
+  (open-with-vscode :project-root))
+
+
+
+(spacemacs/set-leader-keys "ovf" 'vscode-open-file
+  "ovl" 'vscode-open-lsp-workspace-root "ovp"
+  'vscode-open-project-root)
+#+end_src
