@@ -36,4 +36,7 @@
          (and release
               (string-match-p "[Mm]icrosoft" release)))))
 
+(defun custom/apple-intel-p ()
+  (string-match-p "x86_64-apple-darwin" system-configuration))
+
 (provide 'user-custom-functions)

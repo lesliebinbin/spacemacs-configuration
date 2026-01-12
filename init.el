@@ -93,7 +93,8 @@ This function should only modify configuration layer settings."
      typescript
      vue
      prettier
-     parinfer
+     ,@(unless (custom/apple-intel-p)
+         '(parinfer))
      (github-copilot
       :variables
       copilot-chat-backend 'curl)
