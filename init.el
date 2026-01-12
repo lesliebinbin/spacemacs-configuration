@@ -19,8 +19,8 @@
   (let (frame-width (display-pixel-width))
     (if (< frame-width 3840)
         18.0
-        22.0
-        )
+      22.0
+      )
     )
   )
 
@@ -128,6 +128,14 @@ This function should only modify configuration layer settings."
            )
          )
 
+     ,@(when (eq system-type 'gnu/linux)
+         '(
+           (eaf :variables
+                eaf-python-command (getenv "EAF_PYTHON_PATH")
+                eaf-enable-debug t
+                )
+           )
+         )
 
      ,@(when-let* ((conda-home (getenv "CONDA_PREFIX")))
          `(
@@ -326,7 +334,7 @@ It should only modify the values of Spacemacs settings."
      :width normal)
    ;; Default icons font, it can be `all-the-icons' or `nerd-icons'.
    dotspacemacs-default-icons-font
-   'all-the-icons
+   'nerd-icons
    ;; The leader key (default "SPC")
    dotspacemacs-leader-key
    "SPC"
