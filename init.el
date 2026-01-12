@@ -90,6 +90,7 @@ This function should only modify configuration layer settings."
      typescript
      vue
      prettier
+     parinfer
      (github-copilot
       :variables
       copilot-chat-backend 'curl)
