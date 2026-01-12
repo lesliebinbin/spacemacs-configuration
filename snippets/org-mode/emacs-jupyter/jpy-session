@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: jupyter python session
+# key: jpy-session
+# --
+#+begin_src jupyter-python :export ${1:both} :session ${2:first} :async ${3:yes} :kernel ${4}
+
+#+end_src
