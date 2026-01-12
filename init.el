@@ -20,6 +20,18 @@
     (if (< frame-width 3840) 14.0 22.0)))
 
 
+(defun custom/wsl-p ()
+  "Return non-nil if running inside WSL (any version)."
+  (and (eq system-type 'gnu/linux)
+       (let ((release (ignore-errors
+                        (with-temp-buffer
+                          (insert-file-contents "/proc/sys/kernel/osrelease")
+                          (buffer-string)))))
+         (and release
+              (string-match-p "[Mm]icrosoft" release)))))
+
+
+
 (defun dotspacemacs/layers ()
   "Layer configuration:
 This function should only modify configuration layer settings."
@@ -114,7 +126,7 @@ This function should only modify configuration layer settings."
            )
          )
 
-     ,@(when (eq system-type 'darwin)
+     ,@(unless (custom/wsl-p)
          '(
            (eaf :variables
                 eaf-python-command (getenv "EAF_PYTHON_PATH")
@@ -123,14 +135,6 @@ This function should only modify configuration layer settings."
            )
          )
 
-     ,@(when (eq system-type 'gnu/linux)
-         '(
-           (eaf :variables
-                eaf-python-command (getenv "EAF_PYTHON_PATH")
-                eaf-enable-debug t
-                )
-           )
-         )
 
      ,@(when-let* ((conda-home (getenv "CONDA_PREFIX")))
          `(
