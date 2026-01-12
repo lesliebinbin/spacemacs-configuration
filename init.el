@@ -1,7 +1,7 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;; This file is loaded by Spacemacs at startup.
 ;; It must be stored in your home directory.
-(add-to-list 'load-path (expand-file-name "lisp" dotspacemacs-directory))
+(add-to-list 'load-path (expand-file-name "private/lisp" dotspacemacs-directory))
 
 (require 'user-custom-functions)
 
@@ -44,6 +44,13 @@ This function should only modify configuration layer settings."
       :disabled-for git
       )
      emacs-lisp
+     dap
+     json
+     yaml
+     toml
+     command-log
+     restclient
+     llm-client
      git
      helm
      markdown
