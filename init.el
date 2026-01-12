@@ -121,6 +121,12 @@ This function should only modify configuration layer settings."
             )
            )
          )
+     (ibuffer :variables ibuffer-group-buffers-by 'projects)
+     (tabs :variables
+           tabs-selected-tab-bar 'over
+           tabs-auto-hide t
+           tabs-auto-hide-delay 3.0
+           )
      )
    ;; List of additional packages that will be installed without being wrapped
    ;; in a layer (generally the packages are installed only and should still be
