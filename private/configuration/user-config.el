@@ -5,4 +5,12 @@ configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
   (custom/spacemacs-load-user-custom-via-org
-   "custom/config.org"))
+   "user-config/native-compile.org")
+  (custom/spacemacs-load-user-custom-via-org
+   "user-config/shell-path.org")
+  (custom/spacemacs-load-user-custom-via-org
+   "user-config/emacs-jupyter.org")
+  (custom/spacemacs-load-user-custom-via-org
+   "user-config/yas-snippets.org")
+  (custom/spacemacs-load-user-custom-via-org
+   "user-config/vscode.org"))

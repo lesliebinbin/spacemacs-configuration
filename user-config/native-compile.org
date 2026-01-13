@@ -1,0 +1,12 @@
+* Native Compilation
+
+#+begin_src emacs-lisp :tangle yes
+;; -*- mode: emacs-lisp; lexical-binding: t -*-
+(when (eq system-type 'darwin)
+  (setq
+   native-comp-speed -1
+   native-comp-jit-compilation nil
+   native-comp-aot-compilation nil
+   )
+  )
+#+end_src

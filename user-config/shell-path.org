@@ -1,0 +1,7 @@
+* Exec Path From Shell
+
+
+#+begin_src emacs-lisp :tangle yes
+;; -*- mode: emacs-lisp; lexical-binding: t -*-
+(require 'exec-path-from-shell)
+#+end_src

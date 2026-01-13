@@ -1,0 +1,14 @@
+* Emacs Jupyter
+
+#+begin_src emacs-lisp :tangle yes
+;; -*- mode: emacs-lisp; lexical-binding: t -*-
+(require 'jupyter)
+(exec-path-from-shell-initialize)
+(org-babel-do-load-languages
+  'org-babel-load-languages
+  '((emacs-lisp . t)
+    (python . t)
+    (jupyter . t)
+    )
+  )
+#+end_src

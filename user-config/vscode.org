@@ -1,38 +1,7 @@
-#+begin_src emacs-lisp :tangle yes
-;; -*- mode: emacs-lisp; lexical-binding: t -*-
-(when (eq system-type 'darwin)
-  (setq
-   native-comp-speed -1
-   native-comp-jit-compilation nil
-   native-comp-aot-compilation nil
-   )
-  )
-#+end_src
+* VSCode
 
 #+begin_src emacs-lisp :tangle yes
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
-(require 'exec-path-from-shell)
-(require 'jupyter)
-(exec-path-from-shell-initialize)
-(org-babel-do-load-languages
-  'org-babel-load-languages
-  '((emacs-lisp . t)
-    (python . t)
-    (jupyter . t)
-    )
-  )
-#+end_src
-
-#+begin_src emacs-lisp :tangle yes
-(when-let* ((base-dir (or (and (boundp 'dotspacemacs-directory)
-                               dotspacemacs-directory)
-                          user-emacs-directory))
-            (custom-snippet-directory (expand-file-name "private/snippets" base-dir)))
-  (add-to-list 'yas-snippet-dirs custom-snippet-directory))
-#+end_src
-
-
-#+begin_src emacs-lisp :tangle yes
 (require 'buffer-path-utils)
 (spacemacs/declare-prefix "o" "Custom")
 (spacemacs/declare-prefix "ov" "Open VSCode")
