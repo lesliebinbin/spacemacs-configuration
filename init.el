@@ -6,15 +6,15 @@
 (require 'user-custom-functions)
 
 ;;spacemacs layers
-(load-file (expand-file-name "private/configuration/layers.el" dotspacemacs-directory))
+(load-file (expand-file-name "emacs-config/layers.el" dotspacemacs-directory))
 ;;spacemacs init
-(load-file (expand-file-name "private/configuration/init.el" dotspacemacs-directory))
+(load-file (expand-file-name "emacs-config/init.el" dotspacemacs-directory))
 ;;spacemacs user-init
-(load-file (expand-file-name "private/configuration/user-init.el" dotspacemacs-directory))
+(load-file (expand-file-name "emacs-config/user-init.el" dotspacemacs-directory))
 ;;spacemacs user-config
-(load-file (expand-file-name "private/configuration/user-config.el" dotspacemacs-directory))
+(load-file (expand-file-name "emacs-config/user-config.el" dotspacemacs-directory))
 ;;spacemacs user-env
-(load-file (expand-file-name "private/configuration/user-env.el" dotspacemacs-directory))
+(load-file (expand-file-name "emacs-config/user-env.el" dotspacemacs-directory))
 
 
 
