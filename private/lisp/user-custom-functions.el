@@ -18,13 +18,9 @@
 (defun custom/font-size-based-on-pixel-width ()
   (let ((frame-width (display-pixel-width)))
     (cond
-     ((< frame-width 1600)
-     16.0)
-     ((< frame-width 2048)
-     18.0)
-     ((< frame-width 2560)
-     20.0)
-     ((t 22.0)))))
+     ((= frame-width 1920) 14.0)
+     ((= frame-width 2560) 18.0)
+     (t 22.0))))
 
 
 (defun custom/wsl-p ()
