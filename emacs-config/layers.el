@@ -110,7 +110,7 @@ This function should only modify configuration layer settings."
          '(
            (eaf :variables
                 eaf-python-command (getenv "EAF_PYTHON_PATH")
-                eaf-enable-debug nil)))
+                eaf-enable-debug (custom/wsl-p))))
 
      ,@(when-let* ((conda-home (getenv "CONDA_PREFIX")))
          `(
