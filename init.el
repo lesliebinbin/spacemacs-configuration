@@ -15,6 +15,8 @@
 (load-file (expand-file-name "emacs-config/user-config.el" dotspacemacs-directory))
 ;;spacemacs user-env
 (load-file (expand-file-name "emacs-config/user-env.el" dotspacemacs-directory))
+;; native extension
+(load-file (expand-file-name "emacs-config/native-ext.el" dotspacemacs-directory))
 
 
 
