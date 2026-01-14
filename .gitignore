@@ -2,3 +2,6 @@
 **/*.jpeg
 **/*.png
 user-config/*.el
+**/*.so*
+**/*.dylib*
+
