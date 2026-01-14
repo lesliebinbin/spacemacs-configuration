@@ -86,6 +86,9 @@ This function should only modify configuration layer settings."
      typescript
      vue
      prettier
+     c-c++
+     meson
+     clojure
      ,@(unless (custom/apple-intel-p)
          '(parinfer))
      (github-copilot
