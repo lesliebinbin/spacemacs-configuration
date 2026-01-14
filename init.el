@@ -7,24 +7,23 @@
 (require 'user-custom-functions)
 
 ;;spacemacs layers
-(load-file (expand-file-name "emacs-config/layers.el"
-                             dotspacemacs-directory))
+(load (expand-file-name "emacs-config/layers" dotspacemacs-directory))
 ;;spacemacs init
-(load-file (expand-file-name "emacs-config/init.el" dotspacemacs-directory))
+(load (expand-file-name "emacs-config/init" dotspacemacs-directory))
 ;;spacemacs user-init
-(load-file (expand-file-name "emacs-config/user-init.el"
-                             dotspacemacs-directory))
+(load (expand-file-name "emacs-config/user-init"
+                        dotspacemacs-directory))
 ;;spacemacs user-config
-(load-file (expand-file-name "emacs-config/user-config.el"
-                             dotspacemacs-directory))
+(load (expand-file-name "emacs-config/user-config"
+                        dotspacemacs-directory))
 ;;spacemacs user-env
-(load-file (expand-file-name "emacs-config/user-env.el"
-                             dotspacemacs-directory))
+(load (expand-file-name "emacs-config/user-env"
+                        dotspacemacs-directory))
 ;; native extension
 (when (string-match-p "linux"
                       (symbol-name system-type))
-  (load-file (expand-file-name "emacs-config/native-ext.el"
-                               dotspacemacs-directory)))
+  (load (expand-file-name "emacs-config/native-ext"
+                          dotspacemacs-directory)))
 
 
 ;; Do not write anything past this comment. This is where Emacs will
