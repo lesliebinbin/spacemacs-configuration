@@ -106,17 +106,11 @@ This function should only modify configuration layer settings."
                 osx-right-control-as 'left
                 osx-swap-option-and-command nil)))
 
-
-
-     ,@(unless (custom/wsl-p)
+     ,@(unless (custom/with-pgtk-p)
          '(
            (eaf :variables
                 eaf-python-command (getenv "EAF_PYTHON_PATH")
                 eaf-enable-debug nil)))
-
-
-
-
 
      ,@(when-let* ((conda-home (getenv "CONDA_PREFIX")))
          `(

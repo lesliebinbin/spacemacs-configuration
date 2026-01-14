@@ -33,6 +33,11 @@
          (and release
               (string-match-p "[Mm]icrosoft" release)))))
 
+(defun custom/with-pgtk-p ()
+  (string-match-p "--with-pgtk" system-configuration-options))
+
+
+
 (defun custom/apple-intel-p ()
   (string-match-p "x86_64-apple-darwin" system-configuration))
 
