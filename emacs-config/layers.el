@@ -38,7 +38,6 @@ This function should only modify configuration layer settings."
       auto-completion-enable-snippets-in-popup t
       auto-completion-use-company-box t
       :disabled-for git)
-
      emacs-lisp
      dap
      json
@@ -143,6 +142,7 @@ This function should only modify configuration layer settings."
    `(
      jupyter
      exec-path-from-shell
+     ;; (ox-ipynb :location (recipe :fetcher github :repo "jkitchin/ox-ipynb"))
      (buffer-path-utils :location ,(expand-file-name "buffer-path-utils" user-packages-directory)))
 
    ;; A list of packages that cannot be updated.
