@@ -105,7 +105,7 @@ This function should only modify configuration layer settings."
                 osx-right-control-as 'left
                 osx-swap-option-and-command nil)))
 
-     ,@(unless (or (custom/with-pgtk-p) (custom/apple-intel-p))
+     ,@(unless (or (custom/with-pgtk-p) (getenv "IGNORE_EAF"))
          '(
            (eaf :variables
                 eaf-python-command (getenv "EAF_PYTHON_PATH")
