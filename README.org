@@ -2,9 +2,9 @@
 
 ** About EAF (Emacs Application Framework)
 
-__It is not straightforward to make *EAF* browser works to play video online__
+_It is not straightforward to make *EAF* browser works to play video online_
 
-__Steps To Remember__
+_Steps To Remember_
 
 
 *** Install System wide *PyQt6*
