@@ -152,7 +152,7 @@ It should only modify the values of Spacemacs settings."
      :width normal)
    ;; Default icons font, it can be `all-the-icons' or `nerd-icons'.
    dotspacemacs-default-icons-font
-   'nerd-icons
+   'all-the-icons
    ;; The leader key (default "SPC")
    dotspacemacs-leader-key
    "SPC"
@@ -184,7 +184,7 @@ It should only modify the values of Spacemacs settings."
    ;; In the terminal, these pairs are generally indistinguishable, so this only
    ;; works in the GUI. (default nil)
    dotspacemacs-distinguish-gui-tab
-   nil
+   t
    ;; Name of the default layout (default "Default")
    dotspacemacs-default-layout-name
    "Default"
