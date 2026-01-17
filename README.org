@@ -1,0 +1,45 @@
+* Notes
+
+** About EAF (Emacs Application Framework)
+
+__It is not straightforward to make *EAF* browser works to play video online__
+
+__Steps To Remember__
+
+
+*** Install System wide *PyQt6*
+
+-  For Mac
+
+#+begin_src zsh
+brew install pyqt
+#+end_src
+
+
+- For Linux
+#+begin_src zsh
+sudo apt install pyqt6
+#+end_src
+
+
+*** Create a venv environment link with system packages
+
+#+begin_src zsh
+# Ensure the python3 version match with your system wide pyqt6's python3 versino
+python3 -m venv .venv --system-site-packages
+source .venv/bin/activate
+#+end_src
+
+
+*** Follow The EAF installation
+#+begin_src zsh
+# Ensure that you are under the EAF Directory
+./install-eaf.py --force
+#+end_src
+
+*** Remove User Site PyQt6
+#+begin_src zsh
+pip uninstall PyQt6 PyQt6-Qt6 PyQt6-sip PyQt6-WebEngine PyQt6-WebEngine-Qt6 
+#+end_src
+
+
