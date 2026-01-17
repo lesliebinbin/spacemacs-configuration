@@ -36,10 +36,24 @@
 (defun custom/with-pgtk-p ()
   (string-match-p "--with-pgtk" system-configuration-options))
 
+(defun custom/system-type-p (system-name)
+  (string-match-p system-name
+                  (symbol-name system-type)))
+
 
 
 (defun custom/apple-intel-p ()
   (string-match-p "x86_64-apple-darwin" system-configuration))
+
+(defun custom/gdb-codesigned-p ()
+  (eq 0 (shell-command "codesign -vvv $(which gdb)")))
+
+(defun custom/enable-eaf-debug-p ()
+  (when (executable-find "gdb")
+    (cond
+     ((custom/system-type-p "linux") t)
+     ((custom/system-type-p "darwin") (custom/gdb-codesigned-p))
+     (t nil))))
 
 (defun custom/dynamic-module-p ()
   (and (fboundp 'module-load)
