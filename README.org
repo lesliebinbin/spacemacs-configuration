@@ -2,7 +2,7 @@
 
 ** About EAF (Emacs Application Framework)
 
-_It is not straightforward to make *EAF* browser works to play video online_
+_It is not straightforward to make **EAF** browser works to play video online_
 
 _Steps To Remember_
 
