@@ -74,6 +74,7 @@ This function should only modify configuration layer settings."
      (treemacs
       :variables
       treemacs-width 30)
+     (tree-sitter :variables tree-sitter-syntax-highlight-enable t)
      csv
      toml
      (python
@@ -123,7 +124,14 @@ This function should only modify configuration layer settings."
 
 
      (ibuffer :variables ibuffer-group-buffers-by 'projects)
-     tabs)
+     tabs
+     kubernetes
+     quickurl
+     imenu-list)
+
+
+
+
 
 
 
