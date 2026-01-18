@@ -1,0 +1,53 @@
+#+begin_src emacs-lisp :tangle yes
+;; -*- mode: emacs-lisp; lexical-binding: t -*-
+(setq max-image-size 100.0)
+(setq image-animate-loop nil)
+(setq image-animate-max-time t) ; Setting to t may allow it to loop indefinitely
+(setq image-cache-max-size (* 3 1024 1024 1024)) ; 200MB cache
+
+(defvar my/banner-timer nil "Timer for the banner animation.")
+
+(defun my/animate-spacemacs-banner ()
+  "Animate banner only when *spacemacs* is visible and flush cache periodically."
+  (interactive)
+  ;; Cancel any existing timer to avoid duplicates
+  (when my/banner-timer
+    (cancel-timer my/banner-timer))
+  (setq my/banner-timer (run-with-timer 0
+                                        25
+                                        (lambda ()
+                                          (clear-image-cache t)
+                                          (let ((buf (get-buffer "*spacemacs*")))
+                                            (if (and buf
+                                                     (eq (current-buffer) buf))
+                                                ;; CASE 1: Buffer is active - Animate
+                                                (with-current-buffer buf
+                                                  (save-excursion
+                                                    (goto-char (point-min))
+                                                    (let ((found nil)
+                                                          (img nil)
+                                                          (count 0))
+                                                      ;; Search for the image
+                                                      (while (and (not found)
+                                                                  (not (eobp))
+                                                                  (< (point) 1000))
+                                                        (setq img (get-text-property (point)
+                                                                                     'display))
+                                                        (if (and (listp img)
+                                                                 (eq (car img) 'image))
+                                                            (setq found t)
+                                                          (forward-char 1)))
+                                                      (when found
+                                                        (image-animate img nil t)))))))))))
+
+;; CASE 2: Buffer not active - We could stop the timer here,
+;; but it's better to just let it idle until you switch back.
+
+
+;; Re-trigger animation when switching back to the buffer
+(add-hook 'buffer-list-update-hook
+          (lambda ()
+            (when (and (get-buffer "*spacemacs*")
+                       (eq (current-buffer) (get-buffer "*spacemacs*")))
+              (my/animate-spacemacs-banner))))
+#+end_src

@@ -13,4 +13,6 @@ before packages are loaded."
   (custom/spacemacs-load-user-custom-via-org
    "user-config/yas-snippets.org")
   (custom/spacemacs-load-user-custom-via-org
-   "user-config/vscode.org"))
+   "user-config/vscode.org")
+  (custom/spacemacs-load-user-custom-via-org
+   "user-config/logo-animation.org"))

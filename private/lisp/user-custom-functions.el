@@ -3,7 +3,7 @@
   (let* ((base-dir (or (and (boundp 'dotspacemacs-directory)
                             dotspacemacs-directory)
                        user-emacs-directory))
-         (path (expand-file-name "logos/emacs.jpeg" base-dir)))
+         (path (expand-file-name "logos/emacs.gif" base-dir)))
     (if (file-exists-p path)
         path
       'official)))
@@ -74,6 +74,31 @@
           (module-load module-path))
       (message "Dynamic module %s not found at %s"
                module-name module-path))))
+
+(defun my/animate-spacemacs-banner ()
+  "Find the banner image in the Spacemacs buffer and start animation with debug info."
+  (clear-image-cache t)
+  (message "DEBUG: Starting banner animation check...")
+  (if (get-buffer "*spacemacs*")
+      (with-current-buffer (get-buffer "*spacemacs*")
+        (save-excursion
+          (goto-char (point-min))
+          (let ((found nil)
+                (img nil))
+            ;; Search through the first 1000 characters for the display property
+            (while (and (not found) (not (eobp)) (< (point) 1000))
+              (setq img (get-text-property (point) 'display))
+              (if (and (listp img) (eq (car img) 'image))
+                  (setq found t)
+                (forward-char 1)))
+
+            (if found
+                (progn
+                  (message "DEBUG: Image found at point %d! Starting animation..." (point))
+                  (image-animate img nil t))
+              (message "DEBUG: Failed to find image property in the first 1000 chars of *spacemacs* buffer.")))))
+    (message "DEBUG: *spacemacs* buffer not found yet.")))
+
 
 
 (provide 'user-custom-functions)
