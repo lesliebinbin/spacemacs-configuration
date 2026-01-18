@@ -1,5 +1,6 @@
 .spacemacs.env
 **/*.jpeg
 **/*.png
+**/*.jpg
 user-config/*.el
 
