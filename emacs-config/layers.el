@@ -151,7 +151,12 @@ This function should only modify configuration layer settings."
      jupyter
      exec-path-from-shell
      ;; (ox-ipynb :location (recipe :fetcher github :repo "jkitchin/ox-ipynb"))
-     (buffer-path-utils :location ,(expand-file-name "buffer-path-utils" user-packages-directory)))
+     (buffer-path-utils :location ,(expand-file-name "buffer-path-utils" user-packages-directory))
+     (dwim-shell-command :location (recipe :fetcher github :repo "xenodium/dwim-shell-command")))
+
+
+
+
 
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages
