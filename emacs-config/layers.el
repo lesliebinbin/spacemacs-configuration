@@ -150,6 +150,7 @@ This function should only modify configuration layer settings."
    `(
      jupyter
      exec-path-from-shell
+     mpvi
      ;; (ox-ipynb :location (recipe :fetcher github :repo "jkitchin/ox-ipynb"))
      (buffer-path-utils :location ,(expand-file-name "buffer-path-utils" user-packages-directory))
      (dwim-shell-command :location (recipe :fetcher github :repo "xenodium/dwim-shell-command")))
