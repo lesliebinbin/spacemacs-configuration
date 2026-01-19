@@ -1,53 +1,107 @@
 #+begin_src emacs-lisp :tangle yes
-;; -*- mode: emacs-lisp; lexical-binding: t -*-
-(setq max-image-size 100.0)
-(setq image-animate-loop nil)
-(setq image-animate-max-time t) ; Setting to t may allow it to loop indefinitely
-(setq image-cache-max-size (* 3 1024 1024 1024)) ; 200MB cache
+;; 1. Define the customizable variable for lag tolerance
+(defcustom my-image-animate-tardiness-threshold 200
+  "Maximum cumulative tardiness (in seconds) allowed before stopping animation.
+If set to nil, the animation will never stop due to lag. Default Emacs is 2."
+  :type '(choice (number :tag "Seconds")
+                 (const :tag "Infinite (Never stop)" nil))
+  :group 'image)
 
-(defvar my/banner-timer nil "Timer for the banner animation.")
+;; 2. Overwrite the engine with the custom tardiness logic
+(defun image-animate-timeout (image n count time-elapsed limit target-time)
+  "Modified version of the built-in function with custom tardiness threshold."
+  (plist-put (cdr image) :animate-tardiness
+             (+ (* (or (plist-get (cdr image) :animate-tardiness) 0) 0.9)
+                (float-time (time-since target-time))))
+  (let* ((buffer (plist-get (cdr image) :animate-buffer))
+         (position (plist-get (cdr image) :animate-position))
+         (continue-animation
+          (and (buffer-live-p buffer)
+               (or (null position)
+                   (with-current-buffer buffer
+                     (let ((disp (get-text-property position 'display)))
+                       (and (consp disp)
+                            (eq (car disp) 'image)
+                            (eq position
+                                (plist-get (cdr disp) :animate-position))))))
+               ;; --- THE TARDINESS LOGIC ---
+               (or (null my-image-animate-tardiness-threshold)
+                   (< (plist-get (cdr image) :animate-tardiness)
+                      my-image-animate-tardiness-threshold)
+                   (progn
+                     (message "Stopping animation; tardiness exceeded %s limit"
+                              my-image-animate-tardiness-threshold)
+                     nil)))))
+    (if (not continue-animation)
+        (clear-image-cache nil image)
+      (let* ((time (prog1 (current-time)
+                     (image-show-frame image n t)))
+             (speed (image-animate-get-speed image))
+             (time-to-load-image (time-since time))
+             (stated-delay-time
+              (/ (or (cdr (plist-get (cdr image) :animate-multi-frame-data))
+                     image-default-frame-delay)
+                 (float (abs speed))))
+             (delay (max (float-time (time-subtract stated-delay-time
+                                                    time-to-load-image))
+                         image-minimum-frame-delay))
+             done)
+        (setq n (if (< speed 0) (1- n) (1+ n)))
+        (if limit
+            (cond ((>= n count) (setq n 0))
+                  ((< n 0) (setq n (1- count))))
+          (and (or (>= n count) (< n 0)) (setq done t)))
+        (setq time-elapsed (+ delay time-elapsed))
+        (if (numberp limit)
+            (setq done (>= time-elapsed limit)))
+        (unless done
+          (run-with-timer delay nil #'image-animate-timeout
+                          image n count time-elapsed limit
+                          (+ (float-time) delay)))))))
 
-(defun my/animate-spacemacs-banner ()
-  "Animate banner only when *spacemacs* is visible and flush cache periodically."
+;; 3. The Robust Trigger Function with Auto-Scaling
+(defun my/start-spacemacs-banner-animation ()
+  "Start animation if in *spacemacs* buffer and scale image to fit max-image-size."
   (interactive)
-  ;; Cancel any existing timer to avoid duplicates
-  (when my/banner-timer
-    (cancel-timer my/banner-timer))
-  (setq my/banner-timer (run-with-timer 0
-                                        25
-                                        (lambda ()
-                                          (clear-image-cache t)
-                                          (let ((buf (get-buffer "*spacemacs*")))
-                                            (if (and buf
-                                                     (eq (current-buffer) buf))
-                                                ;; CASE 1: Buffer is active - Animate
-                                                (with-current-buffer buf
-                                                  (save-excursion
-                                                    (goto-char (point-min))
-                                                    (let ((found nil)
-                                                          (img nil)
-                                                          (count 0))
-                                                      ;; Search for the image
-                                                      (while (and (not found)
-                                                                  (not (eobp))
-                                                                  (< (point) 1000))
-                                                        (setq img (get-text-property (point)
-                                                                                     'display))
-                                                        (if (and (listp img)
-                                                                 (eq (car img) 'image))
-                                                            (setq found t)
-                                                          (forward-char 1)))
-                                                      (when found
-                                                        (image-animate img nil t)))))))))))
+  (when-let ((buf (get-buffer "*spacemacs*")))
+    (with-current-buffer buf
+      (save-excursion
+        (goto-char (point-min))
+        (let* ((img (get-text-property (point) 'display))
+               (found (and (listp img) (eq (car img) 'image))))
 
-;; CASE 2: Buffer not active - We could stop the timer here,
-;; but it's better to just let it idle until you switch back.
+          ;; Robustly search for the image property if not at point-min
+          (unless found
+            (let ((pos (next-single-property-change (point) 'display nil 1000)))
+              (when pos
+                (setq img (get-text-property pos 'display))
+                (setq found (and (listp img) (eq (car img) 'image))))))
 
+          (when (and found (not (image-animate-timer img)))
+            ;; --- ROBUST SCALING LOGIC ---
+            (let* ((image-size (image-size img t))
+                   (img-w (car image-size))
+                   (img-h (cdr image-size))
+                   (max-w (cond ((integerp max-image-size) max-image-size)
+                                ((floatp max-image-size) (* (frame-pixel-width) max-image-size))
+                                (t 400)))
+                   (max-h (cond ((integerp max-image-size) max-image-size)
+                                ((floatp max-image-size) (* (frame-pixel-height) max-image-size))
+                                (t 300))))
 
-;; Re-trigger animation when switching back to the buffer
+              (when (or (> img-w max-w) (> img-h max-h))
+                (let ((scale-factor (min (/ (float max-w) img-w)
+                                         (/ (float max-h) img-h))))
+                  (plist-put (cdr img) :width (floor (* img-w scale-factor)))
+                  (message "DEBUG: Scaling banner to %spx" (plist-get (cdr img) :width))))
+
+              (plist-put (cdr img) :animate-tardiness 0)
+              (image-animate img nil t))))))))
+
+;; 4. Hook Setup
 (add-hook 'buffer-list-update-hook
           (lambda ()
             (when (and (get-buffer "*spacemacs*")
                        (eq (current-buffer) (get-buffer "*spacemacs*")))
-              (my/animate-spacemacs-banner))))
+              (my/start-spacemacs-banner-animation))))
 #+end_src
