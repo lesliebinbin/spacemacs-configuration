@@ -2,6 +2,6 @@
 **/*.jpeg
 **/*.png
 **/*.jpg
-**/*/gif
+**/*.gif
 user-config/*.el
 
