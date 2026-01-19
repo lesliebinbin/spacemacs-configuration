@@ -1,4 +1,5 @@
 #+begin_src emacs-lisp :tangle yes
+(setq image-use-external-converter t)
 ;; 1. Define the customizable variable for lag tolerance
 (defcustom my-image-animate-tardiness-threshold 200
   "Maximum cumulative tardiness (in seconds) allowed before stopping animation.
@@ -92,7 +93,7 @@ If set to nil, the animation will never stop due to lag. Default Emacs is 2."
               (when (or (> img-w max-w) (> img-h max-h))
                 (let ((scale-factor (min (/ (float max-w) img-w)
                                          (/ (float max-h) img-h))))
-                  (plist-put (cdr img) :width (floor (* img-w scale-factor)))
+                  (plist-put (cdr img) :width (floor (* img-w scale-factor 0.5)))
                   (message "DEBUG: Scaling banner to %spx" (plist-get (cdr img) :width))))
 
               (plist-put (cdr img) :animate-tardiness 0)
@@ -105,3 +106,4 @@ If set to nil, the animation will never stop due to lag. Default Emacs is 2."
                        (eq (current-buffer) (get-buffer "*spacemacs*")))
               (my/start-spacemacs-banner-animation))))
 #+end_src
+
