@@ -2,8 +2,8 @@
 ;; This file is loaded by Spacemacs at startup.
 ;; It must be stored in your home directory.
 (add-to-list 'load-path
-             (expand-file-name "private/lisp" dotspacemacs-directory))
-(setq user-packages-directory (expand-file-name "private/packages" dotspacemacs-directory))
+             (expand-file-name "local/lisp" dotspacemacs-directory))
+(setq user-packages-directory (expand-file-name "local/packages" dotspacemacs-directory))
 (require 'user-custom-functions)
 
 ;;spacemacs layers
