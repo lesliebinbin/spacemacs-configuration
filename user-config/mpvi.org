@@ -1,21 +1,20 @@
 #+begin_src emacs-lisp :tangle yes
 (setq mpvi-debug t)
-(when (custom/wsl-p)
-  (with-eval-after-load 'mpvi
-    (defun mpvi-mpv-version ()
-      "Return the current mpv version as a list, handling versions with or without 'v'."
-      (with-temp-buffer
-        ;; Ensure the command name is correct for your system
-        (let ((cmd (or (bound-and-true-p emms-player-mpv-command-name)
-                       "mpv")))
-          (process-file cmd nil t nil "--version")
-          (goto-char (point-min))
-          (save-match-data
-            ;; Added v? to make the 'v' optional (if (re-search-forward "v?\\([0-9]+\\)\\.\\([0-9]+\\)\\.\\([0-9]+\\)" (line-end-position) t)
-            (list (string-to-number (match-string 1))
-                  (string-to-number (match-string 2))
-                  (string-to-number (match-string 3)))
-            (user-error "No mpv version found: check your 'mpv --version' output")))))))
-(setq mpvi-init-cmds '(((set_property ao pulse))))
+;; (when (custom/wsl-p)
+;;   (with-eval-after-load 'mpvi
+;;     (defun mpvi-mpv-version ()
+;;       "Return the current mpv version as a list, handling versions with or without 'v'."
+;;       (with-temp-buffer
+;;         ;; Ensure the command name is correct for your system
+;;         (let ((cmd (or (bound-and-true-p emms-player-mpv-command-name)
+;;                        "mpv")))
+;;           (process-file cmd nil t nil "--version")
+;;           (goto-char (point-min))
+;;           (save-match-data
+;;             ;; Added v? to make the 'v' optional (if (re-search-forward "v?\\([0-9]+\\)\\.\\([0-9]+\\)\\.\\([0-9]+\\)" (line-end-position) t)
+;;             (list (string-to-number (match-string 1))
+;;                   (string-to-number (match-string 2))
+;;                   (string-to-number (match-string 3)))
+;;             (user-error "No mpv version found: check your 'mpv --version' output")))))))
 #+end_src
 
