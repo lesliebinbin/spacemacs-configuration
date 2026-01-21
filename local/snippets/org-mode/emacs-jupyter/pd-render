@@ -1,0 +1,28 @@
+# -*- mode: snippet -*-
+# name: pandas data frame render
+# key: df-render
+# --
+#+begin_src jupyter-python :export ${1:both} :session ${2:first} :async ${3:yes} :kernel ${4}
+import pandas as pd
+from IPython.display import display
+
+def pandas_to_org(df):
+    from tabulate import tabulate
+    # Generates the | column | format
+    return tabulate(df, headers='keys', tablefmt='orgtbl')
+
+ip = get_ipython()
+
+# 1. Initialize the 'text/org' formatter if it's missing
+if 'text/org' not in ip.display_formatter.formatters:
+    from IPython.core.formatters import BaseFormatter
+    # Create a generic formatter for the text/org MIME type
+    class OrgFormatter(BaseFormatter):
+        format_type = 'text/org'
+    
+    ip.display_formatter.formatters['text/org'] = OrgFormatter()
+
+# 2. Register the Pandas handler
+org_formatter = ip.display_formatter.formatters['text/org']
+org_formatter.for_type(pd.DataFrame, pandas_to_org)
+#+end_src
