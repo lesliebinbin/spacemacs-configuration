@@ -1,0 +1,7 @@
+#+begin_src emacs-lisp :tangle yes
+;; -*- mode: emacs-lisp; lexical-binding: t -*-
+(require 'atomic-chrome)
+(setq atomic-chrome-buffer-open-style 'split
+      atomic-chrome-default-major-mode 'markdown-mode)
+(atomic-chrome-start-server)
+#+end_src
