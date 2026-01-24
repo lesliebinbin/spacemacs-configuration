@@ -38,9 +38,21 @@
   (interactive)
   (open-with-vscode :project-root))
 
+(spacemacs/set-leader-keys "ovf"
+  (lambda ()
+    (interactive)
+    (open-with-vscode :file))
+  "ovl"
+  (lambda ()
+    (interactive)
+    (open-with-vscode :lsp-workspace))
+  "ovp"
+  (lambda ()
+    (interactive)
+    (open-with-vscode :project-root)))
 
-
-(spacemacs/set-leader-keys "ovf" 'vscode-open-file
-  "ovl" 'vscode-open-lsp-workspace-root "ovp"
-  'vscode-open-project-root)
+(which-key-add-key-based-replacements
+  "SPC o v f" "Open Current File in VSCode"
+  "SPC o v l" "Open LSP Workspace Root in VSCode"
+  "SPC o v p" "Open Project Root in VSCode")
 #+end_src

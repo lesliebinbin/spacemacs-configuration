@@ -1,0 +1,46 @@
+* Apple Music
+#+begin_src emacs-lisp :tangle yes
+;; -*- mode: emacs-lisp; lexical-binding: t -*-
+(require 'user-custom-macros)
+(spacemacs/declare-prefix "om" "MacOS")
+(spacemacs/declare-prefix "omm" "Music")
+
+
+(defun spacemacs//music-action (action)
+  (osx/with-app "Music" action))
+
+(when (spacemacs/system-is-mac)
+  (spacemacs/set-leader-keys "omml"
+    (lambda ()
+      (interactive)
+      (spacemacs//music-action 'launch)))
+  (spacemacs/set-leader-keys "ommp"
+    (lambda ()
+      (interactive)
+      (spacemacs//music-action 'playpause)))
+  (spacemacs/set-leader-keys "omms"
+    (lambda ()
+      (interactive)
+      (spacemacs//music-action 'stop)))
+  (spacemacs/set-leader-keys "omm>"
+    (lambda ()
+      (interactive)
+      (spacemacs//music-action "next track")))
+  (spacemacs/set-leader-keys "ommq"
+    (lambda ()
+      (interactive)
+      (spacemacs//music-action 'quit)))
+  (spacemacs/set-leader-keys "omm<"
+    (lambda ()
+      (interactive)
+      (spacemacs//music-action "previous track")))
+
+  ;; Explicitly tell which-key what these labels are
+  (which-key-add-key-based-replacements
+    "SPC o m m l" "Launch"
+    "SPC o m m p" "Play/Pause"
+    "SPC o m m s" "Stop"
+    "SPC o m m >" "Next Track"
+    "SPC o m m <" "Previous Track"
+    "SPC o m m q" "Quit"))
+#+end_src
