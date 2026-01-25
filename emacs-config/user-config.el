@@ -17,4 +17,8 @@ before packages are loaded."
   (custom/spacemacs-load-user-custom-via-org
    "user-config/logo-animation.org")
   (custom/spacemacs-load-user-custom-via-org
-   "user-config/mpvi.org"))
+   "user-config/mpvi.org")
+  (custom/spacemacs-load-user-custom-via-org
+   "user-config/atomic-chrome.org")
+  (custom/spacemacs-load-user-custom-via-org
+   "user-config/apple-music.org"))

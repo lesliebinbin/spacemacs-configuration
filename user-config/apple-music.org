@@ -1,0 +1,120 @@
+* Apple Music
+#+begin_src emacs-lisp :tangle yes
+;; -*- mode: emacs-lisp; lexical-binding: t -*-
+(require 'user-custom-macros)
+(require 'dash)
+(spacemacs/declare-prefix "om" "Apple Music")
+(spacemacs/declare-prefix "oma" "Action")
+(spacemacs/declare-prefix "omap" "Play")
+(spacemacs/declare-prefix "oma>" "Next")
+(spacemacs/declare-prefix "oma<" "Previous")
+(spacemacs/declare-prefix "omi" "Info")
+
+
+
+(when (spacemacs/system-is-mac)
+
+  ;; functions definition start
+  (defun spacemacs//apple-music-action (action)
+    (osx/with-app "Music" action))
+
+  (defun spacemacs//apple-music-current-playlist ()
+    (-> "get name of current playlist"
+        spacemacs//apple-music-action
+        string-trim
+        message
+        ))
+
+  (defun spacemacs//apple-music-all-playlist ()
+    (-as-> "get name of every playlist"
+           data
+           (spacemacs//apple-music-action data)
+           (string-split data ",")
+           (seq-map #'string-trim data)
+           (completing-read "Playlists: " data)
+           ))
+
+  (defun spacemacs//apple-music-list-all-songs-under-playlist ()
+    "Get a playlist name from the existing function and list its songs."
+    (let ((selected-playlist (spacemacs//apple-music-all-playlist)))
+      (when (and selected-playlist (not (string-empty-p selected-playlist)))
+        (-as-> (format "get name of every track of playlist \"%s\"" selected-playlist)
+               data
+               (spacemacs//apple-music-action data)
+               (string-split data ",")
+               (seq-map #'string-trim data)
+               (completing-read (format "Songs in %s: " selected-playlist) data)))))
+
+  (defun spacemacs//apple-music-play-track ()
+    (->> (spacemacs//apple-music-list-all-songs-under-playlist)
+         (format "play track \"%s\"")
+         (spacemacs//apple-music-action))
+    )
+
+  ;; functions definition end
+
+  (spacemacs/set-leader-keys "omal"
+    (lambda ()
+      (interactive)
+      (spacemacs//apple-music-action 'launch)))
+  (spacemacs/set-leader-keys "omapp"
+    (lambda ()
+      (interactive)
+      (spacemacs//apple-music-action 'playpause)))
+
+  (spacemacs/set-leader-keys "omapt"
+    (lambda ()
+      (interactive)
+      (spacemacs//apple-music-play-track)))
+
+
+  (spacemacs/set-leader-keys "omas"
+    (lambda ()
+      (interactive)
+      (spacemacs//apple-music-action 'stop)))
+  (spacemacs/set-leader-keys "oma>t"
+    (lambda ()
+      (interactive)
+      (spacemacs//apple-music-action "next track")))
+  (spacemacs/set-leader-keys "omaq"
+    (lambda ()
+      (interactive)
+      (spacemacs//apple-music-action 'quit)))
+  (spacemacs/set-leader-keys "oma<t"
+    (lambda ()
+      (interactive)
+      (spacemacs//apple-music-action "previous track")))
+
+
+  (spacemacs/set-leader-keys "omia"
+    (lambda ()
+      (interactive)
+      (spacemacs//apple-music-all-playlist)
+      ))
+
+  (spacemacs/set-leader-keys "omic"
+    (lambda ()
+      (interactive)
+      (spacemacs//apple-music-current-playlist)
+      ))
+
+  (spacemacs/set-leader-keys "omis"
+    (lambda ()
+      (interactive)
+      (spacemacs//apple-music-list-all-songs-under-playlist)
+      ))
+
+  ;; Explicitly tell which-key what these labels are
+  (which-key-add-key-based-replacements
+    "SPC o m a l" "Launch"
+    "SPC o m a p p" "Play/Pause"
+    "SPC o m a p t" "Track"
+    "SPC o m a s" "Stop"
+    "SPC o m a > t" "Next Track"
+    "SPC o m a < t" "Previous Track"
+    "SPC o m a q" "Quit"
+    "SPC o m i a" "All Playlist"
+    "SPC o m i c" "Current Playlist"
+    "SPC o m i s" "All track under playlist"
+    ))
+#+end_src
