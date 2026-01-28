@@ -10,4 +10,5 @@
     (jupyter . t)
     )
   )
+(setq  jupyter-repl-echo-eval-p t)
 #+end_src

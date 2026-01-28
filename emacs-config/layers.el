@@ -127,6 +127,7 @@ This function should only modify configuration layer settings."
      tabs
      kubernetes
      quickurl
+     pandoc
      imenu-list)
 
 
