@@ -74,7 +74,10 @@ This function should only modify configuration layer settings."
      (treemacs
       :variables
       treemacs-width 30)
-     (tree-sitter :variables tree-sitter-syntax-highlight-enable t)
+     (tree-sitter :variables
+                  tree-sitter-syntax-highlight-enable t
+                  tree-sitter-fold-enable t
+                  tree-sitter-fold-indicators-enable t)
      csv
      toml
      (python

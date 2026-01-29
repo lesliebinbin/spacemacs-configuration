@@ -2,6 +2,7 @@
 
 #+begin_src emacs-lisp :tangle yes
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
+(require 'smartparens)
 (when-let* ((base-dir (or (and (boundp 'dotspacemacs-directory)
                                dotspacemacs-directory)
                           user-emacs-directory))

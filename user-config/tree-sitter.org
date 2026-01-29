@@ -1,0 +1,4 @@
+#+begin_src emacs-lisp :tangle yes
+(add-hook 'python-ts-mode-hook 'python-mode-hook) ;; Copies over existing hooks
+(setq major-mode-remap-alist '((python-mode . python-ts-mode))) ;; Automatically use TS mode
+#+end_src

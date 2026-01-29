@@ -21,4 +21,6 @@ before packages are loaded."
   (custom/spacemacs-load-user-custom-via-org
    "user-config/atomic-chrome.org")
   (custom/spacemacs-load-user-custom-via-org
-   "user-config/apple-music.org"))
+   "user-config/apple-music.org")
+  (custom/spacemacs-load-user-custom-via-org
+   "user-config/tree-sitter.org"))
