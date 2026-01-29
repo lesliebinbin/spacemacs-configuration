@@ -6,10 +6,10 @@ We wrap everything in a check to ensure this specific Emacs binary was compiled 
 
 #+begin_src emacs-lisp
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
-(when (and (fboundp 'treesit-available-p)
-           (treesit-available-p))
+(when
+    (and (fboundp 'treesit-available-p) (treesit-available-p))
   (use-package treesit-auto
-    :defer t
+    :demand t
     :config
     (setq treesit-auto-install 'prompt)
     (global-treesit-auto-mode))

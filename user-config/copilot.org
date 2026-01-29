@@ -5,5 +5,5 @@
  (lambda (msg) (notifications-notify :title "Emacs Copilot" :body (plist-get msg :message))))
 (copilot-on-notification
   'window/logMessage
-  (lambda (msg) (message (plist-get msg :message))
+  (lambda (msg) (message (plist-get msg :message))))
 #+end_src
