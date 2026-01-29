@@ -1,0 +1,9 @@
+#+begin_src emacs-lisp :tangle yes
+(require 'copilot)
+(copilot-on-request
+ 'window/showMessageRequest
+ (lambda (msg) (notifications-notify :title "Emacs Copilot" :body (plist-get msg :message))))
+(copilot-on-notification
+  'window/logMessage
+  (lambda (msg) (message (plist-get msg :message))
+#+end_src

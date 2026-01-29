@@ -74,10 +74,6 @@ This function should only modify configuration layer settings."
      (treemacs
       :variables
       treemacs-width 30)
-     (tree-sitter :variables
-                  tree-sitter-syntax-highlight-enable t
-                  tree-sitter-fold-enable t
-                  tree-sitter-fold-indicators-enable t)
      csv
      toml
      (python
@@ -155,6 +151,11 @@ This function should only modify configuration layer settings."
      jupyter
      exec-path-from-shell
      mpvi
+     ;; Check if function exists AND if it returns t
+     ,@(when (and (fboundp 'treesit-available-p)
+                  (treesit-available-p))
+         '(treesit-auto
+           (treesit-fold :location (recipe :fetcher github :repo "emacs-tree-sitter/treesit-fold"))))
 
      ;; (ox-ipynb :location (recipe :fetcher github :repo "jkitchin/ox-ipynb"))
      (atomic-chrome :location (recipe :fetcher github :repo "KarimAziev/atomic-chrome"))

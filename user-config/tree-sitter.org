@@ -1,4 +1,19 @@
-#+begin_src emacs-lisp :tangle yes
-(add-hook 'python-ts-mode-hook 'python-mode-hook) ;; Copies over existing hooks
-(setq major-mode-remap-alist '((python-mode . python-ts-mode))) ;; Automatically use TS mode
+
+#+TITLE: Tree-sitter Configuration
+
+* Core Availability Check
+We wrap everything in a check to ensure this specific Emacs binary was compiled with Tree-sitter support.
+
+#+begin_src emacs-lisp
+;; -*- mode: emacs-lisp; lexical-binding: t -*-
+(when (and (fboundp 'treesit-available-p)
+           (treesit-available-p))
+  (use-package treesit-auto
+    :defer t
+    :config
+    (setq treesit-auto-install 'prompt)
+    (global-treesit-auto-mode))
+  (add-hook 'python-ts-mode-hook (lambda () (run-hooks 'python-mode-hook)))
+  (add-hook 'typescript-tsx-mode-hook (lambda () (run-hooks 'typescript-mode-hook))))
 #+end_src
+
