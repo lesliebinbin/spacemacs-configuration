@@ -158,6 +158,7 @@ This function should only modify configuration layer settings."
            (treesit-fold :location (recipe :fetcher github :repo "emacs-tree-sitter/treesit-fold"))))
 
      ;; (ox-ipynb :location (recipe :fetcher github :repo "jkitchin/ox-ipynb"))
+     timu-macos-theme
      (atomic-chrome :location (recipe :fetcher github :repo "KarimAziev/atomic-chrome"))
      (applescript-mode :location (recipe :fetcher github :repo "lesliebinbin/applescript-mode"))
      (buffer-path-utils :location ,(expand-file-name "buffer-path-utils" user-packages-directory))

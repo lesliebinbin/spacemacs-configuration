@@ -122,6 +122,7 @@ It should only modify the values of Spacemacs settings."
    ;; DOCUMENTATION.org for the full theme specifications.
    dotspacemacs-themes
    '(
+     timu-macos
      spacemacs-dark
      spacemacs-light
      material
