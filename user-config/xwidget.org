@@ -1,0 +1,6 @@
+#+begin_src emacs-lisp :tangle yes
+;; -*- mode: emacs-lisp; lexical-binding: t -*-
+(when (featurep 'xwidget-internal)
+  (require 'xwidget)
+  (setq xwidget-webkit-enable-plugins t))
+#+end_src
