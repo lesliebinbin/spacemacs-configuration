@@ -4,11 +4,14 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 (require 'jupyter)
 (org-babel-do-load-languages
-  'org-babel-load-languages
-  '((emacs-lisp . t)
-    (python . t)
-    (jupyter . t)
-    )
-  )
+ 'org-babel-load-languages
+ '((emacs-lisp . t)
+   (python . t)
+   (jupyter . t)))
+
+
 (setq  jupyter-repl-echo-eval-p t)
+
+(when (custom/wsl-p)
+  (add-to-list 'display-mm-dimensions-alist '(t . (530 . 300))))
 #+end_src
