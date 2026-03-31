@@ -6,4 +6,5 @@
 (copilot-on-notification
   'window/logMessage
   (lambda (msg) (message (plist-get msg :message))))
+(add-hook 'prog-mode-hook #'copilot-nes-mode)
 #+end_src
