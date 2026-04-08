@@ -127,7 +127,9 @@ This function should only modify configuration layer settings."
      kubernetes
      quickurl
      pandoc
-     imenu-list)
+     imenu-list
+     nginx)
+
 
 
 

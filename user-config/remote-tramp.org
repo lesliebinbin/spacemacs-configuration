@@ -1,0 +1,5 @@
+#+begin_src emacs-lisp :tangle yes
+;; -*- mode: emacs-lisp; lexical-binding: t -*-
+(require 'tramp)
+(setq tramp-default-method "sshx")
+#+end_src
