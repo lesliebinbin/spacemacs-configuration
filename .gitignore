@@ -5,3 +5,4 @@
 **/*.gif
 user-config/*.el
 
+/.agent-shell/

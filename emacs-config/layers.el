@@ -128,7 +128,8 @@ This function should only modify configuration layer settings."
      quickurl
      pandoc
      imenu-list
-     nginx)
+     nginx
+     agent-shell)
 
 
 
