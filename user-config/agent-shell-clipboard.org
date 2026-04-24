@@ -1,0 +1,19 @@
+#+begin_src emacs-lisp :tangle yes
+;; -*- mode: emacs-lisp; lexical-binding: t -*-
+(when (custom/wsl-p)
+  (with-eval-after-load 'agent-shell
+    (setq agent-shell-clipboard-image-handlers
+          (list
+           (list
+            (cons :command "wl-paste")
+            (cons :save
+                  (lambda (file-path)
+                    (with-temp-buffer
+                      (set-buffer-multibyte nil)
+                      (let ((coding-system-for-read 'binary))
+                        (call-process "wl-paste" nil t nil "--type" "image/bmp")
+                        (call-process-region
+                         (point-min) (point-max)
+                         "convert" nil nil nil
+                         "bmp:-" (concat "png:" file-path)))))))))))
+#+end_src
