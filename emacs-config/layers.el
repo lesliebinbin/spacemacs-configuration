@@ -166,6 +166,7 @@ This function should only modify configuration layer settings."
      (atomic-chrome :location (recipe :fetcher github :repo "KarimAziev/atomic-chrome"))
      (applescript-mode :location (recipe :fetcher github :repo "lesliebinbin/applescript-mode"))
      (buffer-path-utils :location ,(expand-file-name "buffer-path-utils" user-packages-directory))
+     (compile-multi :location (recipe :fetcher github :repo "mohkale/compile-multi"))
      (dwim-shell-command :location (recipe :fetcher github :repo "xenodium/dwim-shell-command")))
 
 

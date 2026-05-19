@@ -1,0 +1,28 @@
+#+begin_src elisp :tangle yes
+;; -*- mode: emacs-lisp; lexical-binding: t -*-
+
+(defun spacemacs/meson-format-buffer ()
+  "Format current meson.build buffer with `meson format -i`."
+  (interactive)
+  (unless (and buffer-file-name (file-exists-p buffer-file-name))
+    (user-error "Current buffer is not visiting a file"))
+  (unless (executable-find "meson")
+    (user-error "Cannot find meson executable"))
+  
+  (save-buffer)
+  (let ((exit-code
+         (call-process "meson" nil "*meson format*" nil
+                       "format" "-i" (expand-file-name buffer-file-name))))
+    (if (zerop exit-code)
+        (progn
+          ;; revert-buffer-noselect is often cleaner for programmatic reverts
+          (revert-buffer t t t) 
+          (message "Formatted %s" (file-name-nondirectory buffer-file-name)))
+      (pop-to-buffer "*meson format*")
+      (error "meson format failed (see *meson format* buffer for details)"))))
+
+(with-eval-after-load 'meson-mode
+  (spacemacs/declare-prefix-for-mode 'meson-mode "=" "format")
+  (spacemacs/set-leader-keys-for-major-mode 'meson-mode
+    "=b" 'spacemacs/meson-format-buffer))
+#+end_src

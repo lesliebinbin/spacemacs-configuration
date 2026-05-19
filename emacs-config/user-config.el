@@ -31,4 +31,6 @@ before packages are loaded."
   (custom/spacemacs-load-user-custom-via-org
    "user-config/agent-shell-clipboard.org")
   (custom/spacemacs-load-user-custom-via-org
+   "user-config/meson.org")
+  (custom/spacemacs-load-user-custom-via-org
    "user-config/remote-tramp.org"))
