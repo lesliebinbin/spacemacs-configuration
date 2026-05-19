@@ -129,6 +129,7 @@ This function should only modify configuration layer settings."
      pandoc
      imenu-list
      nginx
+     gpu
      agent-shell)
 
 
