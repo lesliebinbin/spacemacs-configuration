@@ -36,7 +36,7 @@ This function should only modify configuration layer settings."
       auto-completion-return-key-behavior 'complete
       auto-completion-tab-key-behavior 'cycle
       auto-completion-enable-snippets-in-popup t
-      auto-completion-use-company-box t
+      auto-completion-use-company-box nil
       :disabled-for git)
      emacs-lisp
      dap

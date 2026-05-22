@@ -1,0 +1,12 @@
+#+begin_src emacs-lisp :tangle yes
+;; -*- mode: emacs-lisp; lexical-binding: t -*-
+(with-eval-after-load 'lsp-mode
+  ;; Force clangd to utilize more CPU cores and optimize memory usage
+  (setq lsp-clients-clangd-args '(
+                                  "-j=4"                    ;; Number of parallel worker threads (match your CPU)
+                                  "--background-index"       ;; Index the project in the background
+                                  "--clang-tidy"             ;; Enable linter diagnostics
+                                  "--completion-style=detailed"
+                                  "--header-insertion=never" ;; Prevents random background lag from header injection
+                                  )))
+#+end_src
