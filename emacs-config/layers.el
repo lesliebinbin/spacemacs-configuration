@@ -38,6 +38,7 @@ This function should only modify configuration layer settings."
       auto-completion-enable-snippets-in-popup t
       auto-completion-use-company-box nil
       :disabled-for git)
+     docker
      emacs-lisp
      dap
      json
