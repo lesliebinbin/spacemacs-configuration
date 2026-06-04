@@ -1,0 +1,18 @@
+# -*- mode: snippet -*-
+# name: raylib simple template
+# key: raylib
+# --
+
+
+#include <raylib.h>
+
+int main() {
+  InitWindow(800, 600, ${1});
+  while (!WindowShouldClose()) {
+    BeginDrawing();
+    ClearBackground(${2});
+    EndDrawing();
+  }
+  CloseWindow();
+  return 0;
+}
