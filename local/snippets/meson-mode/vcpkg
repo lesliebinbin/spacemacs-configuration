@@ -1,0 +1,43 @@
+# -*- mode: snippet -*-
+# name: vcpkg meson template
+# key: vcpkg-meson
+# --
+
+project(
+  ${1},
+  'cpp',
+  version : '0.1',
+  meson_version : '>= 1.3.0',
+  default_options : ['warning_level=3', 'cpp_std=c++23'],
+)
+
+raylib_dep = dependency('raylib', method : 'cmake', required : true)
+glfw_dep = dependency(
+  'glfw3',
+  method : 'cmake',
+  modules : ['glfw'],
+  required : true,
+)
+
+extra_deps = []
+if host_machine.system() == 'darwin'
+  extra_deps += dependency(
+    'appleframeworks',
+    modules : ['Cocoa', 'IOKit', 'CoreVideo', 'CoreFoundation'],
+  )
+endif
+
+dependencies = [raylib_dep, glfw_dep] + extra_deps
+
+sources = [
+  'lesson08.cpp',
+]
+
+exe = executable(
+  ${1},
+  sources,
+  install : true,
+  dependencies : dependencies,
+)
+
+test('basic', exe)
