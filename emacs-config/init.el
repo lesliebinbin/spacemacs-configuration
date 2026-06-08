@@ -302,7 +302,7 @@ It should only modify the values of Spacemacs settings."
    ;; transparency level of a frame background when it's active or selected. Transparency
    ;; can be toggled through `toggle-background-transparency'. (default 90)
    dotspacemacs-background-transparency
-   90
+   50
    ;; If non-nil show the titles of transient states. (default t)
    dotspacemacs-show-transient-state-title
    t
