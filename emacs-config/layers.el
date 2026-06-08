@@ -74,7 +74,10 @@ This function should only modify configuration layer settings."
       nil)
      (treemacs
       :variables
+      treemacs-use-all-the-icons-theme t
       treemacs-width 30)
+
+
      csv
      toml
      (python
