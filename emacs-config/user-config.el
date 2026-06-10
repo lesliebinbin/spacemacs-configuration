@@ -35,4 +35,6 @@ before packages are loaded."
   (custom/spacemacs-load-user-custom-via-org
    "user-config/clangd.org")
   (custom/spacemacs-load-user-custom-via-org
+   "user-config/general-gc.org")
+  (custom/spacemacs-load-user-custom-via-org
    "user-config/remote-tramp.org"))

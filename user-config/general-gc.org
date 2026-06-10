@@ -1,0 +1,7 @@
+* General Garbage Collector
+
+#+begin_src emacs-lisp :tangle yes
+(use-package gcmh
+  :init
+  (gcmh-mode 1))
+#+end_src

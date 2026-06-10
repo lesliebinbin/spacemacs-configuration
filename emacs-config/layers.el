@@ -133,7 +133,6 @@ This function should only modify configuration layer settings."
      pandoc
      imenu-list
      nginx
-     gpu
      agent-shell)
 
 
@@ -158,6 +157,7 @@ This function should only modify configuration layer settings."
    `(
      jupyter
      exec-path-from-shell
+     gcmh
      mpvi
      ;; Check if function exists AND if it returns t
      ,@(when (and (fboundp 'treesit-available-p)

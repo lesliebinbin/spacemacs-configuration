@@ -1,0 +1,47 @@
+# -*- mode: snippet -*-
+# name: Host And Device Memory Manager
+# key: cuda-memory-manager
+# --
+
+#include <cuda_runtime.h>
+#include <tuple>
+#include <stdexcept>
+
+template<typename T>
+class HostAndDeviceManager{
+private:
+  T *hIn, *hOut, *dIn, *dOut; // Device pointers
+  size_t totalBytes;
+public:
+  HostAndDeviceManager(int rows, int cols){
+    hIn = new T[rows * cols]{};
+    hOut = new T[rows * cols]{};
+    cudaMalloc(&dIn, sizeof(T) * rows * cols);
+    cudaMalloc(&dOut, sizeof(T) * rows * cols);
+    totalBytes = sizeof(T) * rows * cols;
+  }
+
+  void memCpy(cudaMemcpyKind direction){
+    switch(direction){
+    case cudaMemcpyHostToDevice:
+      cudaMemcpy(dIn, hIn, totalBytes, direction);
+      break;
+    case cudaMemcpyDeviceToHost:
+      cudaMemcpy(hOut, dOut, totalBytes, direction);
+      break;
+    default:
+      throw std::invalid_argument("Unsupported memory copy direction");
+    }
+  }
+
+  ~HostAndDeviceManager(){
+    delete[] hIn;
+    delete[] hOut;
+    cudaFree(dIn);
+    cudaFree(dOut);
+  }
+
+  std::tuple<T*, T*, T*, T*> getHostAndDevicePointers(){
+    return {hIn, hOut, dIn, dOut};
+  }
+};

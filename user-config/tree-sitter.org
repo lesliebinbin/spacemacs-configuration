@@ -21,7 +21,20 @@ We wrap everything in a check to ensure this specific Emacs binary was compiled 
                          'python-mode-base-hook)))
   (add-hook 'typescript-tsx-mode-hook
             (lambda ()
-              (run-hooks 'typescript-mode-hook))))
-(add-hook 'python-ts-mode-hook #'lsp-deferred)
+              (run-hooks 'typescript-mode-hook)))
+  (add-hook 'python-ts-mode-hook #'lsp-deferred)
+  ;; cuda
+    (add-to-list
+    'treesit-language-source-alist
+    '(cuda "https://github.com/tree-sitter-grammars/tree-sitter-cuda"))
+   (add-to-list 'auto-mode-alist '("\\.cu\\'" . cuda-ts-mode))
+   (add-to-list 'auto-mode-alist '("\\.cuh\\'" . cuda-ts-mode))
+     (define-derived-mode cuda-ts-mode c++-mode "CUDA[TS]"
+     "Major mode for CUDA using tree-sitter."
+     (when (treesit-ready-p 'cuda)
+       (treesit-parser-create 'cuda)
+       (treesit-major-mode-setup)))
+  ;;cuda
+  )
 #+end_src
 
