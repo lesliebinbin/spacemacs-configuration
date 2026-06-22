@@ -39,6 +39,8 @@ This function should only modify configuration layer settings."
       auto-completion-use-company-box nil
       :disabled-for git)
      docker
+     sql
+     protobuf
      emacs-lisp
      dap
      json
