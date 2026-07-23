@@ -30,7 +30,7 @@ endif
 dependencies = [raylib_dep, glfw_dep] + extra_deps
 
 sources = [
-  'lesson08.cpp',
+  'main.cpp',
 ]
 
 exe = executable(
