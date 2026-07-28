@@ -21,7 +21,7 @@
     (cond
      ((= frame-width 1920) 14.0)
      ((= frame-width 2560) 18.0)
-     (t 22.0))))
+     (t 16.0))))
 
 
 (defun custom/wsl-p ()
