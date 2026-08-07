@@ -60,4 +60,14 @@
 
 (add-hook 'find-file-hook #'my/treemacs-ipynb-auto-init)
 
+(with-eval-after-load 'jupyter-repl
+  (defun jupyter-get-client ()
+    "Return a monadic value that returns the client."
+    (jupyter-mlet* ((state (jupyter-get-state))
+                    (client (jupyter-return (if (listp state)
+                                                (car state)
+                                              state))))
+      (cl-check-type client jupyter-kernel-client)
+      (jupyter-return client))))
+
 #+end_src
