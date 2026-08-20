@@ -14,7 +14,7 @@ We wrap everything in a check to ensure this specific Emacs binary was compiled 
     :demand t
     :custom (treesit-auto-install 'prompt)
     :config (global-treesit-auto-mode)
-            (setq treesit-auto-langs '(go rust)))
+    (setq treesit-auto-langs '(go rust)))
   (add-hook 'python-ts-mode-hook
             (lambda ()
               (run-hooks 'python-mode-hook 'python-mode-local-vars-hook
@@ -24,16 +24,18 @@ We wrap everything in a check to ensure this specific Emacs binary was compiled 
               (run-hooks 'typescript-mode-hook)))
   (add-hook 'python-ts-mode-hook #'lsp-deferred)
   ;; cuda
-    (add-to-list
-    'treesit-language-source-alist
-    '(cuda "https://github.com/tree-sitter-grammars/tree-sitter-cuda"))
-   (add-to-list 'auto-mode-alist '("\\.cu\\'" . cuda-ts-mode))
-   (add-to-list 'auto-mode-alist '("\\.cuh\\'" . cuda-ts-mode))
-     (define-derived-mode cuda-ts-mode c++-mode "CUDA[TS]"
-     "Major mode for CUDA using tree-sitter."
-     (when (treesit-ready-p 'cuda)
-       (treesit-parser-create 'cuda)
-       (treesit-major-mode-setup)))
+  (add-to-list
+   'treesit-language-source-alist
+   '(cuda "https://github.com/tree-sitter-grammars/tree-sitter-cuda"))
+  (add-to-list 'auto-mode-alist '("\\.cu\\'" . cuda-ts-mode))
+  (add-to-list 'auto-mode-alist '("\\.cuh\\'" . cuda-ts-mode))
+  (define-derived-mode cuda-ts-mode c++-mode "CUDA[TS]"
+    (when (treesit-ready-p 'cuda)
+      (treesit-parser-create 'cuda)
+      (treesit-major-mode-setup)))
+  (add-hook 'cuda-ts-mode-hook #'spacemacs//c-c++-setup-backend)
+  (with-eval-after-load 'lsp-mode (add-to-list 'lsp-language-id-configuration '(cuda-ts-mode . "cuda")))
+  (spacemacs|define-jump-handlers cuda-ts-mode)
   ;;cuda
   )
 #+end_src

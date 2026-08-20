@@ -4,7 +4,14 @@
  'window/showMessageRequest
  (lambda (msg) (notifications-notify :title "Emacs Copilot" :body (plist-get msg :message))))
 (copilot-on-notification
-  'window/logMessage
-  (lambda (msg) (message (plist-get msg :message))))
+ 'window/logMessage
+ (lambda (msg) (message (plist-get msg :message))))
 (add-hook 'prog-mode-hook #'copilot-nes-mode)
+
+(let ((disable-copilot
+      (lambda ()
+        (copilot-mode -1)
+        (copilot-nes-mode -1))))
+ (dolist (hook '(c-mode-hook c++-mode-hook cuda-ts-mode-hook))
+   (add-hook hook disable-copilot)))
 #+end_src
