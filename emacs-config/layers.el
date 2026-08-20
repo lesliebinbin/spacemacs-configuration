@@ -39,6 +39,7 @@ This function should only modify configuration layer settings."
       auto-completion-use-company-box nil
       :disabled-for git)
      docker
+     cmake
      sql
      protobuf
      emacs-lisp
