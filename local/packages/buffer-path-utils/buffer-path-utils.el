@@ -1,3 +1,4 @@
+;; -*- mode: emacs-lisp; lexical-binding: t -*-
 (defun leslie/buffer-full-path ()
   "Return the full path of the current buffer's file."
   (or (buffer-file-name)))

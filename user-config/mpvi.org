@@ -1,4 +1,5 @@
 #+begin_src emacs-lisp :tangle yes
+;; -*- mode: emacs-lisp; lexical-binding: t -*-
 (setq mpvi-debug t)
 ;; (when (custom/wsl-p)
 ;;   (with-eval-after-load 'mpvi

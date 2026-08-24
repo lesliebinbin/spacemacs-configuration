@@ -1,3 +1,5 @@
+;; -*- mode: emacs-lisp; lexical-binding: t -*-
+
 (defmacro osx/with-app (app &rest actions)
   "Execute AppleScript for APP with ACTIONS (symbols, strings, or variables)."
   `(if (and (fboundp 'spacemacs/system-is-mac) (spacemacs/system-is-mac))

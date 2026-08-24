@@ -1,5 +1,9 @@
 * Emacs Jupyter
 
+#+begin_src emacs-lisp :tangle yes
+;; -*- mode: emacs-lisp; lexical-binding: t -*-
+#+end_src
+
 #+NAME: ipynb_template
 #+begin_example
 {
@@ -23,7 +27,6 @@
 #+end_src
 
 #+begin_src emacs-lisp :tangle yes 
-;; -*- mode: emacs-lisp; lexical-binding: t -*-
 (require 'jupyter)
 (org-babel-do-load-languages 'org-babel-load-languages
                              '((emacs-lisp . t)

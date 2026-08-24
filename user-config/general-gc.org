@@ -1,6 +1,7 @@
 * General Garbage Collector
 
 #+begin_src emacs-lisp :tangle yes
+;; -*- mode: emacs-lisp; lexical-binding: t -*-
 (use-package gcmh
   :init
   (gcmh-mode 1))

@@ -1,3 +1,4 @@
+;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;;; packages.el --- agent-shell layer packages file for Spacemacs
 
 (defconst agent-shell-packages

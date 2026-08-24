@@ -1,3 +1,5 @@
+;; -*- mode: emacs-lisp; lexical-binding: t -*-
+
 (require 'user-custom-functions)
 
 (custom/load-dynamic-module :module-name "bootstrap")

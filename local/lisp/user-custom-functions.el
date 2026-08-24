@@ -1,3 +1,5 @@
+;; -*- mode: emacs-lisp; lexical-binding: t -*-
+
 (require 'cl-lib)
 (defun custom/spacemacs-banner-simple ()
   (let* ((base-dir (or (and (boundp 'dotspacemacs-directory)
