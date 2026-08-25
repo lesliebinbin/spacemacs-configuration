@@ -112,7 +112,7 @@ This function should only modify configuration layer settings."
                 osx-right-control-as 'left
                 osx-swap-option-and-command nil)))
 
-     ,@(unless (or nil (custom/apple-intel-p))
+     ,@(unless (or t (custom/apple-intel-p))
          '(
            (eaf :variables
                 eaf-python-command (getenv "EAF_PYTHON_PATH")
