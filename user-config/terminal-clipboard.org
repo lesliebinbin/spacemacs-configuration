@@ -12,10 +12,50 @@
     (call-process "wl-paste" nil t nil "--no-newline")
     (buffer-string)))
 
-(when (and (not (display-graphic-p))
-           (getenv "WAYLAND_DISPLAY")
-           (executable-find "wl-copy")
-           (executable-find "wl-paste"))
-  (setq interprogram-cut-function #'custom/wl-clipboard-copy
-        interprogram-paste-function #'custom/wl-clipboard-paste))
+(defun custom/iterm2-clipboard-copy (text &optional _push)
+  (let ((coding-system-for-write 'no-conversion)
+        (payload (base64-encode-string (encode-coding-string text 'utf-8) t))
+        (tty (or (getenv "SSH_TTY") (terminal-name))))
+    (write-region (concat "\e]1337;Copy=:" payload "\a") nil tty t 0)))
+
+(defvar custom/terminal-clipboard--default-cut-function
+  interprogram-cut-function)
+
+(defvar custom/terminal-clipboard--default-paste-function
+  interprogram-paste-function)
+
+(defun activate-terminal-base-clipboard (backend)
+  "Activate BACKEND for terminal clipboard integration."
+  (interactive
+   (list
+    (intern
+     (completing-read
+      "Terminal clipboard backend: "
+     '(":wayland-native" ":clipetty" ":iterm2-native") nil t))))
+  (when (display-graphic-p)
+    (user-error "Terminal clipboard backends are unavailable in a GUI frame"))
+  (when (fboundp 'global-clipetty-mode)
+    (global-clipetty-mode -1))
+  (setq interprogram-cut-function
+        custom/terminal-clipboard--default-cut-function
+        interprogram-paste-function
+        custom/terminal-clipboard--default-paste-function)
+  (pcase backend
+    (:wayland-native
+     (unless (and (getenv "WAYLAND_DISPLAY")
+                  (executable-find "wl-copy")
+                  (executable-find "wl-paste"))
+       (user-error "Wayland clipboard tools are unavailable"))
+     (setq interprogram-cut-function #'custom/wl-clipboard-copy
+           interprogram-paste-function #'custom/wl-clipboard-paste))
+    (:clipetty
+     (unless (require 'clipetty nil t)
+       (user-error "Clipetty is not installed"))
+     (global-clipetty-mode 1))
+    (:iterm2-native
+     (unless (or (getenv "SSH_TTY") (string-prefix-p "/" (terminal-name)))
+       (user-error "No terminal device is available for iTerm2 clipboard output"))
+     (setq interprogram-cut-function #'custom/iterm2-clipboard-copy))
+    (_ (user-error "Unknown terminal clipboard backend: %S" backend)))
+  (message "Activated terminal clipboard backend %s" backend))
 #+end_src
