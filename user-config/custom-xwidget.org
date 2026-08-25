@@ -1,0 +1,6 @@
+
+#+begin_src emacs-lisp :tangle yes
+;; -*- mode: emacs-lisp; lexical-binding: t -*-
+(with-eval-after-load 'evil
+  (evil-set-initial-state 'xwidget-webkit-mode 'emacs))
+#+end_src
