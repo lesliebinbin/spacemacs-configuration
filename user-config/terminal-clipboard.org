@@ -1,0 +1,21 @@
+#+begin_src emacs-lisp :tangle yes
+;; -*- mode: emacs-lisp; lexical-binding: t -*-
+
+(defun custom/wl-clipboard-copy (text &optional _push)
+  (let ((process-connection-type nil))
+    (with-temp-buffer
+      (insert text)
+      (call-process-region (point-min) (point-max) "wl-copy"))))
+
+(defun custom/wl-clipboard-paste ()
+  (with-temp-buffer
+    (call-process "wl-paste" nil t nil "--no-newline")
+    (buffer-string)))
+
+(when (and (not (display-graphic-p))
+           (getenv "WAYLAND_DISPLAY")
+           (executable-find "wl-copy")
+           (executable-find "wl-paste"))
+  (setq interprogram-cut-function #'custom/wl-clipboard-copy
+        interprogram-paste-function #'custom/wl-clipboard-paste))
+#+end_src

@@ -11,6 +11,8 @@ before packages are loaded."
   (custom/spacemacs-load-user-custom-via-org
    "user-config/shell-path.org")
   (custom/spacemacs-load-user-custom-via-org
+   "user-config/terminal-clipboard.org")
+  (custom/spacemacs-load-user-custom-via-org
    "user-config/emacs-jupyter.org")
   (custom/spacemacs-load-user-custom-via-org
    "user-config/yas-snippets.org")

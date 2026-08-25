@@ -160,6 +160,7 @@ This function should only modify configuration layer settings."
    `(
      jupyter
      exec-path-from-shell
+     clipetty
      gcmh
      mpvi
      ;; Check if function exists AND if it returns t
