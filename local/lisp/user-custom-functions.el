@@ -78,6 +78,81 @@
       (message "Dynamic module %s not found at %s"
                module-name module-path))))
 
+(defun custom/nvcc-host-cxx-compiler ()
+  "Return the C++ host compiler that NVCC selects on this machine."
+  (let ((nvcc (executable-find "nvcc")))
+    (unless nvcc
+      (user-error "NVCC is not available on exec-path"))
+    (let* ((source (make-temp-file "nvcc-host-compiler-" nil ".cu"))
+           (output (concat source ".o"))
+           (result
+            (unwind-protect
+                (with-temp-buffer
+                  (let ((status (process-file
+                                 nvcc nil t nil "-v" "-dryrun" "-std=c++20"
+                                 "-x" "cu" "-c" source "-o" output)))
+                    (unless (zerop status)
+                      (user-error "NVCC host compiler probe failed: %s"
+                                  (buffer-string)))
+                    (buffer-string)))
+              (delete-file source)
+              (delete-file output))))
+      (unless (string-match
+               "^#\\$ \\(?:\"\\)?\\([^ \t\"]*\\(?:g\\+\\+\\|gcc\\|clang\\+\\+\\|clang\\)[^ \t\"]*\\)"
+               result)
+        (user-error "Could not identify NVCC's host C++ compiler"))
+      (let ((compiler (match-string 1 result)))
+        (or (and (file-executable-p compiler) compiler)
+            (executable-find compiler)
+            (user-error "NVCC host compiler %s is not executable" compiler))))))
+
+(defun custom/cxx-system-include-directories (compiler)
+  "Return COMPILER's implicit C++ system include directories."
+  (with-temp-buffer
+    (let ((status (call-process-region
+                   (point-min) (point-max) compiler nil t nil
+                   "-E" "-x" "c++" "-v" "-")))
+      (unless (zerop status)
+        (user-error "C++ include-path probe failed for %s: %s"
+                    compiler (buffer-string))))
+    (let ((in-search-list nil)
+          directories)
+      (dolist (line (split-string (buffer-string) "\n"))
+        (cond
+         ((string-match-p "#include <...> search starts here:" line)
+          (setq in-search-list t))
+         ((string-match-p "End of search list\\." line)
+          (setq in-search-list nil))
+         (in-search-list
+          (let ((directory (string-trim line)))
+            (when (file-directory-p directory)
+              (push directory directories))))))
+      (setq directories (nreverse directories))
+      (unless directories
+        (user-error "No C++ system include directories found for %s" compiler))
+      directories)))
+
+(defun custom/generate-clangd-cuda-host-includes ()
+  "Populate an empty project `.clangd` buffer from NVCC's host C++ compiler.
+
+The generated `-isystem` entries let clangd parse standard headers in CUDA
+translation units.  Library paths are intentionally omitted because clangd
+does not link code."
+  (interactive)
+  (unless (and buffer-file-name
+               (string= (file-name-nondirectory buffer-file-name) ".clangd"))
+    (user-error "Visit a project-root .clangd file first"))
+  (unless (string-empty-p (buffer-string))
+    (user-error "Refusing to overwrite a non-empty .clangd buffer"))
+  (let* ((compiler (custom/nvcc-host-cxx-compiler))
+         (directories (custom/cxx-system-include-directories compiler)))
+    (dolist (directory directories)
+      (insert "    - -isystem\n"
+              "    - " directory "\n"))
+    (goto-char (point-min))
+    (insert "CompileFlags:\n  Add:\n")
+    (message "Generated .clangd includes from NVCC host compiler %s" compiler)))
+
 (defun my/animate-spacemacs-banner ()
   "Find the banner image in the Spacemacs buffer and start animation with debug info."
   (clear-image-cache t)
