@@ -78,33 +78,43 @@
       (message "Dynamic module %s not found at %s"
                module-name module-path))))
 
-(defun custom/nvcc-host-cxx-compiler ()
-  "Return the C++ host compiler that NVCC selects on this machine."
-  (let ((nvcc (executable-find "nvcc")))
-    (unless nvcc
-      (user-error "NVCC is not available on exec-path"))
-    (let* ((source (make-temp-file "nvcc-host-compiler-" nil ".cu"))
-           (output (concat source ".o"))
-           (result
-            (unwind-protect
-                (with-temp-buffer
-                  (let ((status (process-file
-                                 nvcc nil t nil "-v" "-dryrun" "-std=c++20"
-                                 "-x" "cu" "-c" source "-o" output)))
-                    (unless (zerop status)
-                      (user-error "NVCC host compiler probe failed: %s"
-                                  (buffer-string)))
-                    (buffer-string)))
-              (delete-file source)
-              (delete-file output))))
-      (unless (string-match
-               "^#\\$ \\(?:\"\\)?\\([^ \t\"]*\\(?:g\\+\\+\\|gcc\\|clang\\+\\+\\|clang\\)[^ \t\"]*\\)"
-               result)
-        (user-error "Could not identify NVCC's host C++ compiler"))
-      (let ((compiler (match-string 1 result)))
-        (or (and (file-executable-p compiler) compiler)
-            (executable-find compiler)
-            (user-error "NVCC host compiler %s is not executable" compiler))))))
+(defun custom/select-compiler-executable (program)
+  "Return PROGRAM from exec-path or a user-selected executable."
+  (let ((default (executable-find program)))
+    (when (or (not default)
+              (not (y-or-n-p (format "Use default %s: %s? " program default))))
+      (setq default
+            (read-file-name (format "Path to %s executable: " program)
+                            nil nil t)))
+    (unless (and (file-regular-p default)
+                 (file-executable-p default))
+      (user-error "%s is not an executable file" default))
+    default))
+
+(defun custom/nvcc-host-cxx-compiler (nvcc)
+  "Return the C++ host compiler selected by NVCC executable NVCC."
+  (let* ((source (make-temp-file "nvcc-host-compiler-" nil ".cu"))
+         (output (concat source ".o"))
+         (result
+          (unwind-protect
+              (with-temp-buffer
+                (let ((status (process-file
+                               nvcc nil t nil "-v" "-dryrun" "-std=c++20"
+                               "-x" "cu" "-c" source "-o" output)))
+                  (unless (zerop status)
+                    (user-error "NVCC host compiler probe failed: %s"
+                                (buffer-string)))
+                  (buffer-string)))
+            (delete-file source)
+            (delete-file output))))
+    (unless (string-match
+             "^#\\$ \\(?:\"\\)?\\([^ \t\"]*\\(?:g\\+\\+\\|gcc\\|clang\\+\\+\\|clang\\)[^ \t\"]*\\)"
+             result)
+      (user-error "Could not identify NVCC's host C++ compiler"))
+    (let ((compiler (match-string 1 result)))
+      (or (and (file-executable-p compiler) compiler)
+          (executable-find compiler)
+          (user-error "NVCC host compiler %s is not executable" compiler)))))
 
 (defun custom/cxx-system-include-directories (compiler)
   "Return COMPILER's implicit C++ system include directories."
@@ -132,26 +142,38 @@
         (user-error "No C++ system include directories found for %s" compiler))
       directories)))
 
-(defun custom/generate-clangd-cuda-host-includes ()
-  "Populate an empty project `.clangd` buffer from NVCC's host C++ compiler.
+(defun custom/generate-clangd-cuda-host-includes (&optional mode executable)
+  "Populate an empty `.clangd` buffer from C++ compiler MODE and EXECUTABLE.
 
 The generated `-isystem` entries let clangd parse standard headers in CUDA
 translation units.  Library paths are intentionally omitted because clangd
 does not link code."
-  (interactive)
+  (interactive
+   (list
+    (intern
+     (completing-read "Compiler discovery mode: "
+                      '(":nvcc-deduce" ":g++-deduce") nil t))))
   (unless (and buffer-file-name
                (string= (file-name-nondirectory buffer-file-name) ".clangd"))
     (user-error "Visit a project-root .clangd file first"))
   (unless (string-empty-p (buffer-string))
     (user-error "Refusing to overwrite a non-empty .clangd buffer"))
-  (let* ((compiler (custom/nvcc-host-cxx-compiler))
+  (unless (memq mode '(:nvcc-deduce :g++-deduce))
+    (user-error "Unknown compiler discovery mode: %S" mode))
+  (let* ((selected (or executable
+                       (custom/select-compiler-executable
+                        (if (eq mode :nvcc-deduce) "nvcc" "g++"))))
+         (compiler (if (eq mode :nvcc-deduce)
+                       (custom/nvcc-host-cxx-compiler selected)
+                     selected))
          (directories (custom/cxx-system-include-directories compiler)))
     (dolist (directory directories)
       (insert "    - -isystem\n"
               "    - " directory "\n"))
     (goto-char (point-min))
     (insert "CompileFlags:\n  Add:\n")
-    (message "Generated .clangd includes from NVCC host compiler %s" compiler)))
+    (message "Generated .clangd includes via %s using %s"
+             mode compiler)))
 
 (defun my/animate-spacemacs-banner ()
   "Find the banner image in the Spacemacs buffer and start animation with debug info."
