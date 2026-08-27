@@ -158,14 +158,14 @@ This function should only modify configuration layer settings."
    ;; Also include the dependencies as they will not be resolved automatically.
    dotspacemacs-additional-packages
    `(
-     (jupyter :location "/home/lesliebinbinhuang/codings/custom-emacs-jupyter")
+     (jupyter :location (recipe :fetcher github :repo "lesliebinbin/custom-emacs-jupyter"))
      exec-path-from-shell
      clipetty
      gcmh
      mpvi
      ;; Check if function exists AND if it returns t
      ,@(when (and (fboundp 'treesit-available-p)
-                  (treesit-available-p))
+                  (treesit-available-p) )
          '(treesit-auto
            (treesit-fold :location (recipe :fetcher github :repo "emacs-tree-sitter/treesit-fold"))))
 
