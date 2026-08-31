@@ -121,7 +121,8 @@
     (when (eq (buffer-local-value 'jupyter-ipython-vterm-buffer buffer)
               vterm-buffer)
       (with-current-buffer buffer
-        (setq jupyter-ipython-vterm-buffer nil)))))
+        (setq jupyter-ipython-vterm-buffer nil
+              jupyter-ipython-code-cells-routing nil)))))
 
 (defun jupyter-ipython-vterm-exited (buffer _event)
   "Clear associations when an IPython vterm BUFFER exits."
@@ -152,7 +153,8 @@
                     jupyter-ipython-vterm-registry))))
   (unless (jupyter-ipython-vterm-live-p vterm-buffer)
     (user-error "The selected IPython vterm is no longer live"))
-  (setq-local jupyter-ipython-vterm-buffer vterm-buffer)
+  (setq-local jupyter-ipython-vterm-buffer vterm-buffer
+              jupyter-ipython-code-cells-routing t)
   (message "Associated %s with %s" (buffer-name)
            (buffer-name vterm-buffer)))
 
@@ -196,8 +198,8 @@
     (vterm-send-key "c" nil nil t)))
 
 (defun jupyter-ipython-enable-code-cells-routing ()
-  "Route code-cells evaluation in the current Python buffer to IPython."
-  (setq-local jupyter-ipython-code-cells-routing t)
+  "Install terminal-IPython routing for the current Python buffer.
+The route becomes active only after explicit vterm association."
   (setq-local code-cells-eval-region-commands
               (cons '(jupyter-ipython-code-cells-routing
                       . jupyter-ipython-send-region)
