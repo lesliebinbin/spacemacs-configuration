@@ -163,6 +163,7 @@ This function should only modify configuration layer settings."
      clipetty
      gcmh
      mpvi
+     format-all
      ;; Check if function exists AND if it returns t
      ,@(when (and (fboundp 'treesit-available-p)
                   (treesit-available-p) )
