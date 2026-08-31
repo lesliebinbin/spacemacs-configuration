@@ -13,8 +13,6 @@ before packages are loaded."
   (custom/spacemacs-load-user-custom-via-org
    "user-config/terminal-clipboard.org")
   (custom/spacemacs-load-user-custom-via-org
-   "user-config/emacs-jupyter.org")
-  (custom/spacemacs-load-user-custom-via-org
    "user-config/yas-snippets.org")
   (custom/spacemacs-load-user-custom-via-org
    "user-config/vscode.org")
@@ -42,5 +40,7 @@ before packages are loaded."
    "user-config/general-gc.org")
   (custom/spacemacs-load-user-custom-via-org
    "user-config/custom-xwidget.org")
+  (custom/spacemacs-load-user-custom-via-org
+   "user-config/jupyter-eval.org")
   (custom/spacemacs-load-user-custom-via-org
    "user-config/remote-tramp.org"))

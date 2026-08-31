@@ -158,7 +158,9 @@ This function should only modify configuration layer settings."
    ;; Also include the dependencies as they will not be resolved automatically.
    dotspacemacs-additional-packages
    `(
-     (jupyter :location (recipe :fetcher github :repo "lesliebinbin/custom-emacs-jupyter"))
+     (jupyter-eval :location "/home/lesliebinbinhuang/codings/jupyter-eval")
+     simple-httpd
+     websocket
      exec-path-from-shell
      clipetty
      gcmh
@@ -170,7 +172,6 @@ This function should only modify configuration layer settings."
          '(treesit-auto
            (treesit-fold :location (recipe :fetcher github :repo "emacs-tree-sitter/treesit-fold"))))
 
-     ;; (ox-ipynb :location (recipe :fetcher github :repo "jkitchin/ox-ipynb"))
      timu-macos-theme
      (atomic-chrome :location (recipe :fetcher github :repo "KarimAziev/atomic-chrome"))
      (applescript-mode :location (recipe :fetcher github :repo "lesliebinbin/applescript-mode"))

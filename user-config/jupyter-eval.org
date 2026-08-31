@@ -1,0 +1,7 @@
+* Jupyter Eval
+
+#+begin_src emacs-lisp :tangle yes
+;; -*- mode: emacs-lisp; lexical-binding: t -*-
+
+(require 'jupyter-eval)
+#+end_src

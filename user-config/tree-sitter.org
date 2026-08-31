@@ -43,6 +43,10 @@ We wrap everything in a check to ensure this specific Emacs binary was compiled 
   (when (treesit-ready-p 'toml)
     (add-to-list 'major-mode-remap-alist '(toml-mode . toml-ts-mode)))
   ;;toml
+  ;;python
+  (when (treesit-ready-p 'python)
+    (add-to-list 'major-mode-remap-alist '(python-mode . python-ts-mode)))
+  ;;python
   )
 #+end_src
 
