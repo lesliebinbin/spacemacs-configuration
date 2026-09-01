@@ -5,3 +5,50 @@
 
 (require 'jupyter-eval)
 #+end_src
+
+
+#+NAME: ipynb_template
+#+begin_example
+{
+  "cells": [
+  ],
+  "metadata": {
+    "kernelspec": {
+      "display_name": "python3",
+      "language": "python",
+      "name": "python3"
+    }
+  },
+  "nbformat": 4,
+  "nbformat_minor": 5
+}
+#+end_example
+
+#+begin_src emacs-lisp :tangle yes :var json_data=ipynb_template
+;; -*- mode: emacs-lisp; lexical-binding: t -*-
+(defvar spacemacs//ipynb-template-string json_data
+  "The JSON template for new notebooks.")
+#+end_src
+
+#+begin_src emacs-lisp :tangle yes
+(defun my/treemacs-ipynb-auto-init ()
+  "Automatically initialize and convert empty .ipynb files when opened."
+  (when (and (string-suffix-p ".ipynb" (buffer-file-name))
+             (= (buffer-size) 0))
+    (message "Initializing new Jupyter Notebook...")
+    
+    ;; 1. Insert raw JSON
+    (insert spacemacs//ipynb-template-string)
+    
+    ;; 2. Kill the 'modified' state and save as RAW JSON first
+    ;; We use write-region to bypass the code-cells save-hooks
+    (write-region (point-min) (point-max) (buffer-file-name))
+    (set-buffer-modified-p nil)
+
+    ;; 3. Now convert the display to percent-format
+    (goto-char (point-min))
+    ))
+
+(add-hook 'find-file-hook #'my/treemacs-ipynb-auto-init)
+
+#+end_src
