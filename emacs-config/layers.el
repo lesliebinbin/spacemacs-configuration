@@ -158,7 +158,7 @@ This function should only modify configuration layer settings."
    ;; Also include the dependencies as they will not be resolved automatically.
    dotspacemacs-additional-packages
    `(
-     (jupyter-eval :location "/home/lesliebinbinhuang/codings/jupyter-eval")
+     (jupyter-eval :location (recipe :fetcher github :repo "lesliebinbin/emacs-jupyter-eval"))
      simple-httpd
      websocket
      exec-path-from-shell
