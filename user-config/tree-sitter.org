@@ -12,9 +12,11 @@ We wrap everything in a check to ensure this specific Emacs binary was compiled 
                (expand-file-name "tree-sitter" user-emacs-directory))
   (use-package treesit-auto
     :demand t
-    :custom (treesit-auto-install 'prompt)
-    :config (global-treesit-auto-mode)
-    (setq treesit-auto-langs '(go rust)))
+    :custom
+    (treesit-auto-install 'prompt)
+    (treesit-auto-langs '(go rust python))
+    :config
+    (global-treesit-auto-mode))
   (add-hook 'python-ts-mode-hook
             (lambda ()
               (run-hooks 'python-mode-hook 'python-mode-local-vars-hook
@@ -49,4 +51,3 @@ We wrap everything in a check to ensure this specific Emacs binary was compiled 
   ;;python
   )
 #+end_src
-
