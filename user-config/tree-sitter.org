@@ -14,7 +14,7 @@ We wrap everything in a check to ensure this specific Emacs binary was compiled 
     :demand t
     :custom
     (treesit-auto-install 'prompt)
-    (treesit-auto-langs '(go rust python))
+    (treesit-auto-langs '(go rust python toml))
     :config
     (global-treesit-auto-mode))
   (add-hook 'python-ts-mode-hook
