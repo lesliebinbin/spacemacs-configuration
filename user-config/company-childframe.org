@@ -1,0 +1,33 @@
+* Company Childframe Border Fix
+
+In GUI frames, =company-childframe= draws its posframe border with the
+background of the =company-tooltip-scrollbar-track= face.  Themes that do
+not set a background for that face (e.g. =timu-macos=) leave it
+=unspecified=, which makes redisplay fail with:
+
+#+begin_example
+Company: frontend company-childframe-unless-just-one-frontend error
+"Invalid face box: :line-width, 1, :color, unspecified"
+#+end_example
+
+Terminal frames are unaffected because no graphic border is drawn there.
+Give the face a fallback background after each theme change.
+
+#+begin_src emacs-lisp :tangle yes
+;; -*- mode: emacs-lisp; lexical-binding: t -*-
+(defun custom/company-childframe-fix-border-color ()
+  "Give `company-tooltip-scrollbar-track' a background when unspecified.
+`company-childframe' uses that face's background as its border color."
+  (when (facep 'company-tooltip-scrollbar-track)
+    (let ((bg (face-attribute 'company-tooltip-scrollbar-track :background nil t)))
+      (when (eq bg 'unspecified)
+        (let ((tooltip-bg (face-attribute 'company-tooltip :background nil t)))
+          (set-face-attribute 'company-tooltip-scrollbar-track nil
+                              :background (if (eq tooltip-bg 'unspecified)
+                                              "gray30"
+                                            tooltip-bg)))))))
+
+(add-hook 'spacemacs-post-theme-change-hook
+          #'custom/company-childframe-fix-border-color)
+(custom/company-childframe-fix-border-color)
+#+end_src

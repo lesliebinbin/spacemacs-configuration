@@ -29,6 +29,7 @@ We wrap everything in a check to ensure this specific Emacs binary was compiled 
   (setq treesit-language-source-alist
         (append treesit-language-source-alist
                 '((toml "https://github.com/tree-sitter/tree-sitter-toml")
+                  (cuda "https://github.com/tree-sitter-grammars/tree-sitter-cuda")
                   (tree-sitter "https://github.com/tree-sitter/tree-sitter"))))
   ;; cuda
   (add-to-list 'auto-mode-alist '("\\.cu\\'" . cuda-ts-mode))

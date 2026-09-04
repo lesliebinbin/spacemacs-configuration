@@ -43,4 +43,6 @@ before packages are loaded."
   (custom/spacemacs-load-user-custom-via-org
    "user-config/jupyter-eval.org")
   (custom/spacemacs-load-user-custom-via-org
-   "user-config/remote-tramp.org"))
+   "user-config/remote-tramp.org")
+  (custom/spacemacs-load-user-custom-via-org
+   "user-config/company-childframe.org"))
